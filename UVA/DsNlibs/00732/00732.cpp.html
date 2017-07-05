@@ -1,0 +1,220 @@
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #8f5902; font-style: italic">// 732 - Anagrams by Stack</span>
+<span style="color: #8f5902; font-style: italic">// https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=9&amp;page=show_problem&amp;problem=673</span>
+<span style="color: #8f5902; font-style: italic">// author: Senthil Kumar Thangavelu, email: kingjuliyen @ google&#39;s email.com</span>
+
+<span style="color: #8f5902; font-style: italic">#include &lt;iostream&gt;</span>
+<span style="color: #8f5902; font-style: italic">#include &lt;string&gt;</span>
+<span style="color: #8f5902; font-style: italic">#include &lt;cstdio&gt;</span>
+
+<span style="color: #204a87; font-weight: bold">using</span> <span style="color: #204a87; font-weight: bold">namespace</span> <span style="color: #000000">std</span><span style="color: #000000; font-weight: bold">;</span>
+
+<span style="color: #8f5902; font-style: italic">#define PUSH &#39;i&#39;</span>
+<span style="color: #8f5902; font-style: italic">#define POP &#39;o&#39;</span>
+
+<span style="color: #000000">string</span> <span style="color: #000000">src</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">tgt</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">pushCount</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">popCount</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">maxTgtLen</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">tgtLen</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">char</span> <span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #0000cf; font-weight: bold">300</span><span style="color: #000000; font-weight: bold">],</span> <span style="color: #000000">stack_</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #0000cf; font-weight: bold">300</span><span style="color: #000000; font-weight: bold">];</span>
+
+<span style="color: #204a87; font-weight: bold">inline</span> <span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">printSequence</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">Ntimes</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">tgtLen</span><span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">x</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #204a87; font-weight: bold">for</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">i</span><span style="color: #ce5c00; font-weight: bold">=</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span> <span style="color: #000000">i</span><span style="color: #ce5c00; font-weight: bold">&lt;</span><span style="color: #000000">Ntimes</span><span style="color: #000000; font-weight: bold">;</span> <span style="color: #000000">i</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">printf</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">&quot;%c %c &quot;</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">x</span><span style="color: #000000; font-weight: bold">],</span> <span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">x</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">]);</span>
+    <span style="color: #000000">x</span><span style="color: #ce5c00; font-weight: bold">+=</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #000000">printf</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">&quot;%c %c\n&quot;</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">x</span><span style="color: #000000; font-weight: bold">],</span> <span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">x</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">]);</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">inline</span> <span style="color: #204a87; font-weight: bold">bool</span> <span style="color: #000000">simulateStackInstructions</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">si</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">ti</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">stp</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span> <span style="color: #8f5902; font-style: italic">// source index, target index, stack pointer</span>
+  <span style="color: #204a87; font-weight: bold">const</span> <span style="color: #204a87; font-weight: bold">char</span> <span style="color: #ce5c00; font-weight: bold">*</span><span style="color: #000000">src_cc</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">src</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">c_str</span><span style="color: #000000; font-weight: bold">(),</span> <span style="color: #ce5c00; font-weight: bold">*</span><span style="color: #000000">tgt_cc</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">tgt</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">c_str</span><span style="color: #000000; font-weight: bold">();</span>
+
+  <span style="color: #204a87; font-weight: bold">for</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">i</span><span style="color: #ce5c00; font-weight: bold">=</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span> <span style="color: #000000">i</span><span style="color: #ce5c00; font-weight: bold">&lt;</span><span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">;</span> <span style="color: #000000">i</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">i</span><span style="color: #000000; font-weight: bold">]</span><span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #000000">PUSH</span> <span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+      <span style="color: #000000">stack_</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">stp</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">]</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">src_cc</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">si</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">];</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+    <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #000000; font-weight: bold">{</span> <span style="color: #8f5902; font-style: italic">// seqAr[i]== POP</span>
+      <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">stack_</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #ce5c00; font-weight: bold">--</span><span style="color: #000000">stp</span><span style="color: #000000; font-weight: bold">]</span> <span style="color: #ce5c00; font-weight: bold">!=</span> <span style="color: #000000">tgt_cc</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">ti</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">])</span>
+        <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87">false</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87">true</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">bool</span> <span style="color: #000000">invalidSequence</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #000000; font-weight: bold">((</span><span style="color: #000000">popCount</span> <span style="color: #ce5c00; font-weight: bold">&gt;</span> <span style="color: #000000">pushCount</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">||</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">pushCount</span> <span style="color: #ce5c00; font-weight: bold">&gt;</span> <span style="color: #000000">tgtLen</span><span style="color: #000000; font-weight: bold">));</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">bool</span> <span style="color: #000000">maxSearchDepth</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">seqIdx</span> <span style="color: #ce5c00; font-weight: bold">&gt;</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">maxTgtLen</span><span style="color: #000000; font-weight: bold">));</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #204a87; font-weight: bold">char</span> <span style="color: #000000">type</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">invalidSequence</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #ce5c00; font-weight: bold">||</span> <span style="color: #000000">maxSearchDepth</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">))</span>
+    <span style="color: #204a87; font-weight: bold">return</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #ce5c00; font-weight: bold">!</span><span style="color: #000000">simulateStackInstructions</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">))</span>
+    <span style="color: #204a87; font-weight: bold">return</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">seqIdx</span> <span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #000000">maxTgtLen</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+      <span style="color: #000000">printSequence</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">);</span>
+      <span style="color: #204a87; font-weight: bold">return</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+
+  <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">nextSeq</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">seqIdx</span> <span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #8f5902; font-style: italic">/* SIMULATE A PUSH STATE */</span>
+  <span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">]</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">PUSH</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">pushCount</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">nextSeq</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">PUSH</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000">pushCount</span><span style="color: #ce5c00; font-weight: bold">--</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #8f5902; font-style: italic">/* SIMULATE A POP STATE */</span>
+  <span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #000000">seqIdx</span><span style="color: #000000; font-weight: bold">]</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">POP</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">popCount</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">nextSeq</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">POP</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000">popCount</span><span style="color: #ce5c00; font-weight: bold">--</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">init</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">string</span> <span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">string</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">){</span>
+  <span style="color: #000000">pushCount</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>  <span style="color: #000000">popCount</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">src</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">;</span>  <span style="color: #000000">tgt</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">tgtLen</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">length</span><span style="color: #000000; font-weight: bold">();</span>
+  <span style="color: #000000">maxTgtLen</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">tgtLen</span> <span style="color: #ce5c00; font-weight: bold">*</span> <span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">seqAr</span><span style="color: #000000; font-weight: bold">[</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">]</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">PUSH</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">inline</span> <span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">string</span> <span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">string</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #000000">cout</span> <span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #4e9a06">&quot;[\n&quot;</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">size</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #ce5c00; font-weight: bold">!=</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">.</span><span style="color: #000000">size</span><span style="color: #000000; font-weight: bold">())</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">cout</span> <span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #4e9a06">&quot;]\n&quot;</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #204a87; font-weight: bold">return</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+
+  <span style="color: #000000">init</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">PUSH</span><span style="color: #000000; font-weight: bold">);</span>
+
+  <span style="color: #000000">cout</span> <span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #4e9a06">&quot;]\n&quot;</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">main</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">while</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87">true</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">string</span> <span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">string</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #ce5c00; font-weight: bold">!</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">cin</span> <span style="color: #ce5c00; font-weight: bold">&gt;&gt;</span> <span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">))</span>
+      <span style="color: #204a87; font-weight: bold">break</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">cin</span> <span style="color: #ce5c00; font-weight: bold">&gt;&gt;</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">s</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">t</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+<span style="color: #000000; font-weight: bold">}</span>
+</pre></td></tr></table></div>

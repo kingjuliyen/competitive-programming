@@ -1,0 +1,492 @@
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #888888">// 10813 - Traditional BINGO</span>
+<span style="color: #888888">// https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=20&amp;page=show_problem&amp;problem=1754</span>
+<span style="color: #888888">// author: Senthil Kumar Thangavelu, email: kingjuliyen @ google&#39;s email.com</span>
+
+<span style="color: #557799">#include &lt;iostream&gt;</span>
+<span style="color: #557799">#include &lt;sstream&gt;</span>
+<span style="color: #557799">#include &lt;vector&gt;</span>
+
+<span style="color: #008800; font-weight: bold">using</span> <span style="color: #008800; font-weight: bold">namespace</span> std;
+
+<span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">BC</span> { <span style="color: #888888">// BINGO CARD</span>
+<span style="color: #997700; font-weight: bold">public:</span>
+  BC();
+  <span style="color: #333399; font-weight: bold">int</span> <span style="color: #333333">*</span> card;
+  vector<span style="color: #333333">&lt;</span><span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">&gt;</span> vi;
+
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">readCard</span>();
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">readBingoNumbers</span>();
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">solve</span>();
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">addRow</span>(<span style="color: #333399; font-weight: bold">int</span> v1, <span style="color: #333399; font-weight: bold">int</span> v2, <span style="color: #333399; font-weight: bold">int</span> v3, <span style="color: #333399; font-weight: bold">int</span> v4, <span style="color: #333399; font-weight: bold">int</span> v5, <span style="color: #333399; font-weight: bold">int</span> _row);
+  <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">get</span>(<span style="color: #333399; font-weight: bold">int</span> r, <span style="color: #333399; font-weight: bold">int</span> c);
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">set</span>(<span style="color: #333399; font-weight: bold">int</span> r, <span style="color: #333399; font-weight: bold">int</span> c, <span style="color: #333399; font-weight: bold">int</span> val);
+  <span style="color: #333399; font-weight: bold">bool</span> <span style="color: #0066BB; font-weight: bold">checkWinner</span>();
+  <span style="color: #333399; font-weight: bold">bool</span> <span style="color: #0066BB; font-weight: bold">insertNumber</span>(<span style="color: #333399; font-weight: bold">int</span> val);
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">print</span>();
+
+  <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">checkRow</span>(<span style="color: #333399; font-weight: bold">int</span> r);
+  <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">checkCol</span>(<span style="color: #333399; font-weight: bold">int</span> r);
+  <span style="color: #333399; font-weight: bold">bool</span> <span style="color: #0066BB; font-weight: bold">checkRows</span>() ;
+  <span style="color: #333399; font-weight: bold">bool</span> <span style="color: #0066BB; font-weight: bold">checkCols</span>();
+  <span style="color: #333399; font-weight: bold">bool</span> <span style="color: #0066BB; font-weight: bold">checkDiag</span>();
+};
+
+<span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">limit</span>() { <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">5</span><span style="color: #333333">*</span><span style="color: #0000DD; font-weight: bold">5</span>; }
+BC<span style="color: #333333">::</span>BC() {
+  <span style="color: #333399; font-weight: bold">int</span> l <span style="color: #333333">=</span> limit();
+  card <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> <span style="color: #333399; font-weight: bold">int</span>[l];
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span>l; i<span style="color: #333333">++</span>)
+    card[i] <span style="color: #333333">=</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">2</span>;
+}
+
+<span style="color: #333399; font-weight: bold">int</span> BC<span style="color: #333333">::</span>get(<span style="color: #333399; font-weight: bold">int</span> r, <span style="color: #333399; font-weight: bold">int</span> c) {
+  <span style="color: #008800; font-weight: bold">if</span>(r <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">0</span> <span style="color: #333333">||</span> r <span style="color: #333333">&gt;=</span><span style="color: #0000DD; font-weight: bold">5</span> <span style="color: #333333">||</span> c <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">0</span> <span style="color: #333333">||</span> c <span style="color: #333333">&gt;=</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>;
+  <span style="color: #333399; font-weight: bold">int</span> offset <span style="color: #333333">=</span> (r<span style="color: #333333">*</span><span style="color: #0000DD; font-weight: bold">5</span>) <span style="color: #333333">+</span> c;
+  <span style="color: #008800; font-weight: bold">return</span> card[offset];
+}
+
+<span style="color: #333399; font-weight: bold">void</span> BC<span style="color: #333333">::</span>set(<span style="color: #333399; font-weight: bold">int</span> r, <span style="color: #333399; font-weight: bold">int</span> c, <span style="color: #333399; font-weight: bold">int</span> val) {
+  <span style="color: #008800; font-weight: bold">if</span>(r <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">0</span> <span style="color: #333333">||</span> r <span style="color: #333333">&gt;=</span> <span style="color: #0000DD; font-weight: bold">5</span> <span style="color: #333333">||</span> c <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">0</span> <span style="color: #333333">||</span> c <span style="color: #333333">&gt;=</span> <span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span>;
+  <span style="color: #333399; font-weight: bold">int</span> offset <span style="color: #333333">=</span> (r<span style="color: #333333">*</span><span style="color: #0000DD; font-weight: bold">5</span>) <span style="color: #333333">+</span> c;
+  card[offset] <span style="color: #333333">=</span> val;
+}
+
+<span style="color: #333399; font-weight: bold">void</span> BC<span style="color: #333333">::</span>addRow(<span style="color: #333399; font-weight: bold">int</span> v1, <span style="color: #333399; font-weight: bold">int</span> v2, <span style="color: #333399; font-weight: bold">int</span> v3, <span style="color: #333399; font-weight: bold">int</span> v4, <span style="color: #333399; font-weight: bold">int</span> v5, <span style="color: #333399; font-weight: bold">int</span> _row) {
+  set(_row, <span style="color: #0000DD; font-weight: bold">0</span>, v1);
+  set(_row, <span style="color: #0000DD; font-weight: bold">1</span>, v2);
+  set(_row, <span style="color: #0000DD; font-weight: bold">2</span>, v3);
+  set(_row, <span style="color: #0000DD; font-weight: bold">3</span>, v4);
+  set(_row, <span style="color: #0000DD; font-weight: bold">4</span>, v5);
+}
+
+<span style="color: #333399; font-weight: bold">void</span> BC<span style="color: #333333">::</span>readCard() {
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>;i<span style="color: #333333">++</span>) {
+    vector<span style="color: #333333">&lt;</span><span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">&gt;</span> vi2;
+    string s;
+    getline(cin, s);
+    stringstream <span style="color: #0066BB; font-weight: bold">ss</span>(s);
+    <span style="color: #333399; font-weight: bold">int</span> x;
+    <span style="color: #008800; font-weight: bold">while</span>(ss <span style="color: #333333">&gt;&gt;</span> x) {
+      vi2.push_back(x);
+    }
+
+    <span style="color: #008800; font-weight: bold">if</span>(i<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">2</span>) {
+      addRow(vi2[<span style="color: #0000DD; font-weight: bold">0</span>], vi2[<span style="color: #0000DD; font-weight: bold">1</span>], <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">5</span> , vi2[<span style="color: #0000DD; font-weight: bold">2</span>], vi2[<span style="color: #0000DD; font-weight: bold">3</span>], i);
+    }
+    <span style="color: #008800; font-weight: bold">else</span>{
+      addRow(vi2[<span style="color: #0000DD; font-weight: bold">0</span>], vi2[<span style="color: #0000DD; font-weight: bold">1</span>], vi2[<span style="color: #0000DD; font-weight: bold">2</span>], vi2[<span style="color: #0000DD; font-weight: bold">3</span>], vi2[<span style="color: #0000DD; font-weight: bold">4</span>], i);
+    }
+    vi2.clear();
+  }
+}
+
+<span style="color: #333399; font-weight: bold">void</span> BC<span style="color: #333333">::</span>readBingoNumbers() {
+  string s;
+  <span style="color: #008800; font-weight: bold">while</span>(getline(cin, s)) {
+    stringstream ss(s);
+    <span style="color: #333399; font-weight: bold">int</span> x <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+    <span style="color: #008800; font-weight: bold">while</span>(ss <span style="color: #333333">&gt;&gt;</span> x) {
+      vi.push_back(x);
+      <span style="color: #008800; font-weight: bold">if</span>(vi.size() <span style="color: #333333">==</span> <span style="color: #0000DD; font-weight: bold">75</span>)
+        <span style="color: #008800; font-weight: bold">return</span>;
+    }
+  }
+}
+
+<span style="color: #333399; font-weight: bold">bool</span> between(<span style="color: #333399; font-weight: bold">int</span> val, <span style="color: #333399; font-weight: bold">int</span> a, <span style="color: #333399; font-weight: bold">int</span> b) {
+  <span style="color: #008800; font-weight: bold">if</span>(val <span style="color: #333333">&gt;=</span> a <span style="color: #333333">&amp;&amp;</span> val <span style="color: #333333">&lt;=</span> b)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">false</span>;
+}
+
+<span style="color: #333399; font-weight: bold">int</span> getCol(<span style="color: #333399; font-weight: bold">int</span> val){
+  <span style="color: #008800; font-weight: bold">if</span>(between(val, <span style="color: #0000DD; font-weight: bold">1</span> , <span style="color: #0000DD; font-weight: bold">15</span>))
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #008800; font-weight: bold">else</span> <span style="color: #008800; font-weight: bold">if</span> (between(val, <span style="color: #0000DD; font-weight: bold">16</span>, <span style="color: #0000DD; font-weight: bold">30</span>))
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">1</span>;
+  <span style="color: #008800; font-weight: bold">else</span> <span style="color: #008800; font-weight: bold">if</span> (between(val, <span style="color: #0000DD; font-weight: bold">31</span>, <span style="color: #0000DD; font-weight: bold">45</span>))
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">2</span>;
+  <span style="color: #008800; font-weight: bold">else</span> <span style="color: #008800; font-weight: bold">if</span> (between(val, <span style="color: #0000DD; font-weight: bold">46</span>, <span style="color: #0000DD; font-weight: bold">60</span>))
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">3</span>;
+  <span style="color: #008800; font-weight: bold">else</span> <span style="color: #008800; font-weight: bold">if</span>(between(val, <span style="color: #0000DD; font-weight: bold">61</span>, <span style="color: #0000DD; font-weight: bold">75</span>))
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">4</span>;
+  <span style="color: #008800; font-weight: bold">else</span>
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>;
+}
+
+<span style="color: #333399; font-weight: bold">bool</span> BC<span style="color: #333333">::</span>insertNumber(<span style="color: #333399; font-weight: bold">int</span> val) {
+  <span style="color: #333399; font-weight: bold">int</span> c <span style="color: #333333">=</span> getCol(val);
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> r<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; r<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>; r<span style="color: #333333">++</span>) {
+    <span style="color: #008800; font-weight: bold">if</span>(get(r,c) <span style="color: #333333">==</span> val) {
+      set(r,c, <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">50</span>);
+      <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+    }
+  }
+  <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">false</span>;
+}
+
+<span style="color: #333399; font-weight: bold">int</span> BC<span style="color: #333333">::</span>checkRow(<span style="color: #333399; font-weight: bold">int</span> r) {
+  <span style="color: #333399; font-weight: bold">int</span> v <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> c<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>;c<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>;c<span style="color: #333333">++</span>) {
+    <span style="color: #008800; font-weight: bold">if</span>(get(r, c) <span style="color: #333333">==</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">50</span>)
+      v<span style="color: #333333">++</span>;
+  }
+  <span style="color: #008800; font-weight: bold">return</span> v;
+}
+
+<span style="color: #333399; font-weight: bold">bool</span> BC<span style="color: #333333">::</span>checkRows() {
+  <span style="color: #008800; font-weight: bold">if</span>(checkRow(<span style="color: #0000DD; font-weight: bold">2</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">4</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+
+  <span style="color: #008800; font-weight: bold">if</span>(checkRow(<span style="color: #0000DD; font-weight: bold">0</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkRow(<span style="color: #0000DD; font-weight: bold">1</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkRow(<span style="color: #0000DD; font-weight: bold">3</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkRow(<span style="color: #0000DD; font-weight: bold">4</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">false</span>;
+}
+
+<span style="color: #333399; font-weight: bold">int</span> BC<span style="color: #333333">::</span>checkCol(<span style="color: #333399; font-weight: bold">int</span> c) {
+  <span style="color: #333399; font-weight: bold">int</span> v <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> r<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; r<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>; r<span style="color: #333333">++</span>){
+    <span style="color: #008800; font-weight: bold">if</span>(get(r,c) <span style="color: #333333">==</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">50</span>)
+      v<span style="color: #333333">++</span>;
+  }
+  <span style="color: #008800; font-weight: bold">return</span> v;
+}
+
+<span style="color: #333399; font-weight: bold">bool</span> BC<span style="color: #333333">::</span>checkCols() {
+  <span style="color: #008800; font-weight: bold">if</span>(checkCol(<span style="color: #0000DD; font-weight: bold">2</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">4</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+
+  <span style="color: #008800; font-weight: bold">if</span>(checkCol(<span style="color: #0000DD; font-weight: bold">0</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkCol(<span style="color: #0000DD; font-weight: bold">1</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkCol(<span style="color: #0000DD; font-weight: bold">3</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkCol(<span style="color: #0000DD; font-weight: bold">4</span>)<span style="color: #333333">==</span><span style="color: #0000DD; font-weight: bold">5</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">false</span>;
+}
+
+<span style="color: #333399; font-weight: bold">bool</span> BC<span style="color: #333333">::</span>checkDiag() {
+  <span style="color: #333399; font-weight: bold">int</span> v <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>;i<span style="color: #333333">++</span>){
+    <span style="color: #008800; font-weight: bold">if</span>(get(i,i) <span style="color: #333333">==</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">50</span>)
+      v<span style="color: #333333">++</span>;
+  }
+  <span style="color: #008800; font-weight: bold">if</span>(v<span style="color: #333333">&gt;=</span><span style="color: #0000DD; font-weight: bold">4</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+
+  v <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">4</span>;i<span style="color: #333333">&gt;=</span><span style="color: #0000DD; font-weight: bold">0</span>;i<span style="color: #333333">--</span>){
+    <span style="color: #008800; font-weight: bold">if</span>(get(i, (<span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">-</span>i)) <span style="color: #333333">==</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">50</span>)
+      v<span style="color: #333333">++</span>;
+  }
+
+  <span style="color: #008800; font-weight: bold">if</span>(v<span style="color: #333333">&gt;=</span><span style="color: #0000DD; font-weight: bold">4</span>)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+
+  <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">false</span>;
+}
+
+<span style="color: #333399; font-weight: bold">bool</span> BC<span style="color: #333333">::</span>checkWinner() {
+  <span style="color: #008800; font-weight: bold">if</span>(checkRows())
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkCols())
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">if</span>(checkDiag())
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">true</span>;
+  <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">false</span>;
+}
+
+<span style="color: #333399; font-weight: bold">void</span> BC<span style="color: #333333">::</span>print() {
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> r<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; r<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>; r<span style="color: #333333">++</span>) {
+    <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> c<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; c<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">5</span>; c<span style="color: #333333">++</span>) {
+      cout <span style="color: #333333">&lt;&lt;</span> <span style="background-color: #fff0f0">&quot; &quot;</span> <span style="color: #333333">&lt;&lt;</span> get(r,c);
+    }
+    cout <span style="color: #333333">&lt;&lt;</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>;
+  }
+}
+
+<span style="color: #333399; font-weight: bold">void</span> BC<span style="color: #333333">::</span>solve() {
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>; i<span style="color: #333333">&lt;</span>vi.size();i<span style="color: #333333">++</span>){
+    insertNumber(vi[i]);
+    <span style="color: #008800; font-weight: bold">if</span>(checkWinner()) {
+      cout <span style="color: #333333">&lt;&lt;</span> <span style="background-color: #fff0f0">&quot;BINGO after &quot;</span><span style="color: #333333">&lt;&lt;</span> (i<span style="color: #333333">+</span><span style="color: #0000DD; font-weight: bold">1</span>) <span style="color: #333333">&lt;&lt;</span> <span style="background-color: #fff0f0">&quot; numbers announced&quot;</span> <span style="color: #333333">&lt;&lt;</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>;
+      <span style="color: #008800; font-weight: bold">return</span>;
+    }
+  }
+}
+
+<span style="color: #333399; font-weight: bold">int</span> readNumTests() {
+  string s;
+  getline(cin, s);
+  stringstream <span style="color: #0066BB; font-weight: bold">ss</span>(s);
+  <span style="color: #333399; font-weight: bold">int</span> x;
+  <span style="color: #008800; font-weight: bold">while</span>(ss <span style="color: #333333">&gt;&gt;</span> x) { }
+  <span style="color: #008800; font-weight: bold">return</span> x;
+}
+
+<span style="color: #333399; font-weight: bold">int</span> main() {
+  <span style="color: #333399; font-weight: bold">int</span> n <span style="color: #333333">=</span> readNumTests();
+  <span style="color: #008800; font-weight: bold">for</span>(<span style="color: #333399; font-weight: bold">int</span> i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">1</span>; i<span style="color: #333333">&lt;=</span>n; i<span style="color: #333333">++</span>) {
+    BC bc;
+    bc.readCard();
+    bc.readBingoNumbers();
+    bc.solve();
+  }
+}
+</pre></td></tr></table></div>

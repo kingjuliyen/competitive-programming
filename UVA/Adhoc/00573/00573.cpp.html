@@ -1,0 +1,84 @@
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #8f5902; font-style: italic">// 00573 The Snail</span>
+<span style="color: #8f5902; font-style: italic">// https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=7&amp;page=show_problem&amp;problem=514</span>
+<span style="color: #8f5902; font-style: italic">// author: Senthil Kumar Thangavelu, email: kingjuliyen @ google&#39;s email.com</span>
+
+<span style="color: #8f5902; font-style: italic">#include &lt;cstdio&gt;</span>
+
+<span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">simulate</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">well_height</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #204a87; font-weight: bold">float</span> <span style="color: #000000">day_climb</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">night_slide</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">fatigue_percent</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+
+  <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">day</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #204a87; font-weight: bold">float</span> <span style="color: #000000">position</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">ftg</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">day_climb</span> <span style="color: #ce5c00; font-weight: bold">*</span> <span style="color: #000000">fatigue_percent</span><span style="color: #ce5c00; font-weight: bold">/</span><span style="color: #0000cf; font-weight: bold">100</span><span style="color: #000000; font-weight: bold">);</span>
+
+  <span style="color: #204a87; font-weight: bold">while</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87">true</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">day_climb</span> <span style="color: #ce5c00; font-weight: bold">&gt;</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span> <span style="color: #8f5902; font-style: italic">// snail doesn&#39;t climb -ve distance</span>
+      <span style="color: #000000">position</span> <span style="color: #ce5c00; font-weight: bold">+=</span> <span style="color: #000000">day_climb</span><span style="color: #000000; font-weight: bold">;</span>
+      <span style="color: #000000">day_climb</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">day_climb</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">ftg</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">position</span> <span style="color: #ce5c00; font-weight: bold">&gt;</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">float</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000">well_height</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+      <span style="color: #000000">printf</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">&quot;success on day %d\n&quot;</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">day</span><span style="color: #000000; font-weight: bold">);</span>
+      <span style="color: #204a87; font-weight: bold">break</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+
+    <span style="color: #000000">position</span> <span style="color: #ce5c00; font-weight: bold">-=</span> <span style="color: #000000">night_slide</span><span style="color: #000000; font-weight: bold">;</span>
+
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">position</span> <span style="color: #ce5c00; font-weight: bold">&lt;</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+      <span style="color: #000000">printf</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">&quot;failure on day %d\n&quot;</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">day</span><span style="color: #000000; font-weight: bold">);</span>
+      <span style="color: #204a87; font-weight: bold">break</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000; font-weight: bold">}</span>
+    <span style="color: #000000">day</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">main</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">H</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">U</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">D</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">F</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #204a87; font-weight: bold">while</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87">true</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">scanf</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #4e9a06">&quot;%d %d %d %d&quot;</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #ce5c00; font-weight: bold">&amp;</span><span style="color: #000000">H</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #ce5c00; font-weight: bold">&amp;</span><span style="color: #000000">U</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #ce5c00; font-weight: bold">&amp;</span><span style="color: #000000">D</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #ce5c00; font-weight: bold">&amp;</span><span style="color: #000000">F</span><span style="color: #000000; font-weight: bold">);</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #ce5c00; font-weight: bold">!</span><span style="color: #000000">H</span><span style="color: #000000; font-weight: bold">)</span>
+      <span style="color: #204a87; font-weight: bold">break</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">simulate</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">H</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">U</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">D</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">F</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #000000; font-weight: bold">}</span>
+</pre></td></tr></table></div>

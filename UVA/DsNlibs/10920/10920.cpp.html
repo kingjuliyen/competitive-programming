@@ -1,0 +1,230 @@
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #8f5902; font-style: italic">// 10920 - Spiral Tap</span>
+<span style="color: #8f5902; font-style: italic">// https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=21&amp;page=show_problem&amp;problem=1861</span>
+<span style="color: #8f5902; font-style: italic">// author: Senthil Kumar Thangavelu, email: kingjuliyen @ google&#39;s email.com</span>
+
+<span style="color: #8f5902; font-style: italic">#include &lt;iostream&gt;</span>
+<span style="color: #8f5902; font-style: italic">#include &lt;cmath&gt;</span>
+
+<span style="color: #204a87; font-weight: bold">typedef</span> <span style="color: #204a87; font-weight: bold">long</span> <span style="color: #204a87; font-weight: bold">long</span> <span style="color: #000000">int64_type</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #204a87; font-weight: bold">using</span> <span style="color: #204a87; font-weight: bold">namespace</span> <span style="color: #000000">std</span><span style="color: #000000; font-weight: bold">;</span>
+
+<span style="color: #204a87; font-weight: bold">bool</span> <span style="color: #000000">checkBounds</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">int64_type</span> <span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">start</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">end</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">offset</span> <span style="color: #ce5c00; font-weight: bold">&gt;=</span> <span style="color: #000000">start</span> <span style="color: #ce5c00; font-weight: bold">&amp;&amp;</span> <span style="color: #000000">offset</span> <span style="color: #ce5c00; font-weight: bold">&lt;=</span><span style="color: #000000">end</span><span style="color: #000000; font-weight: bold">)</span>
+    <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87">true</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #204a87; font-weight: bold">return</span> <span style="color: #204a87">false</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">printGlobalCartesian</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">int64_type</span> <span style="color: #000000">row</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">col</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">smallDim</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">d</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">&lt;</span> <span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">d</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">SZ</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">smallDim</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">/</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">+=</span> <span style="color: #000000">d</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">+=</span> <span style="color: #000000">d</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+
+  <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">SZ</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">row</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">+=</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">cout</span> <span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #4e9a06">&quot;Line = &quot;</span><span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #4e9a06">&quot;, column = &quot;</span><span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">&lt;&lt;</span> <span style="color: #4e9a06">&quot;.\n&quot;</span><span style="color: #000000; font-weight: bold">;</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">printCartesianCoords</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">int64_type</span> <span style="color: #000000">bigDim</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">smallDim</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">SZ</span> <span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">upStart</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">upEnd</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">leftStart</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">upEnd</span> <span style="color: #ce5c00; font-weight: bold">+</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">leftEnd</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">leftStart</span> <span style="color: #ce5c00; font-weight: bold">+</span> <span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">bottomStart</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">leftEnd</span> <span style="color: #ce5c00; font-weight: bold">+</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">bottomEnd</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">bottomStart</span> <span style="color: #ce5c00; font-weight: bold">+</span> <span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">rightStart</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">bottomEnd</span> <span style="color: #ce5c00; font-weight: bold">+</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">rightEnd</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">rightStart</span> <span style="color: #ce5c00; font-weight: bold">+</span> <span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">checkBounds</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">upStart</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">upEnd</span><span style="color: #000000; font-weight: bold">))</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">upEnd</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #204a87; font-weight: bold">if</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">checkBounds</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">leftStart</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">leftEnd</span><span style="color: #000000; font-weight: bold">))</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">leftEnd</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #204a87; font-weight: bold">if</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">checkBounds</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">bottomStart</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">bottomEnd</span><span style="color: #000000; font-weight: bold">))</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">);</span>
+    <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">bottomEnd</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #204a87; font-weight: bold">if</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">checkBounds</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">rightStart</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">rightEnd</span><span style="color: #000000; font-weight: bold">))</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">smallDim</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">);</span>
+    <span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">rightEnd</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #000000">printGlobalCartesian</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">row</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">col</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">smallDim</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">);</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">int64_type</span> <span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">int64_type</span> <span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">P</span><span style="color: #ce5c00; font-weight: bold">==</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">printGlobalCartesian</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">);</span>
+    <span style="color: #204a87; font-weight: bold">return</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span> <span style="color: #000000">P</span><span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">SZ</span><span style="color: #ce5c00; font-weight: bold">*</span><span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">))</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">printGlobalCartesian</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #000000">SZ</span><span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span><span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">);</span>
+    <span style="color: #204a87; font-weight: bold">return</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">ssq</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">ssqdim</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">pd</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">sqrt</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">);</span> <span style="color: #8f5902; font-style: italic">// possible dimension</span>
+  <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">P</span> <span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">*</span><span style="color: #000000">pd</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">%</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">==</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">)</span>
+      <span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">;</span>
+      <span style="color: #000000">ssq</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">*</span><span style="color: #000000">pd</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span> <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">%</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">==</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">)</span>
+      <span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">++</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">ssq</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">pd</span><span style="color: #ce5c00; font-weight: bold">*</span><span style="color: #000000">pd</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #000000">ssqdim</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">pd</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">sn</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">sqrt</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">ssq</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">;</span> <span style="color: #8f5902; font-style: italic">// start number</span>
+  <span style="color: #000000">sn</span> <span style="color: #ce5c00; font-weight: bold">*=</span> <span style="color: #000000">sn</span><span style="color: #000000; font-weight: bold">;</span>
+  <span style="color: #000000">sn</span> <span style="color: #ce5c00; font-weight: bold">+=</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+
+  <span style="color: #000000">int64_type</span> <span style="color: #000000">offset</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+   <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">P</span> <span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #000000">ssq</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+     <span style="color: #000000">int64_type</span> <span style="color: #000000">innerSquares</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">sqrt</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">ssq</span><span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #000000; font-weight: bold">);</span>
+     <span style="color: #000000">offset</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">ssq</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">innerSquares</span><span style="color: #000000; font-weight: bold">;</span>
+   <span style="color: #000000; font-weight: bold">}</span>
+   <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #000000; font-weight: bold">{</span>
+     <span style="color: #000000">offset</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">P</span> <span style="color: #ce5c00; font-weight: bold">-</span> <span style="color: #000000">sn</span><span style="color: #000000; font-weight: bold">;</span>
+   <span style="color: #000000; font-weight: bold">}</span>
+  <span style="color: #000000">printCartesianCoords</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">offset</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">ssqdim</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">);</span>
+<span style="color: #000000; font-weight: bold">}</span>
+
+<span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">main</span><span style="color: #000000; font-weight: bold">()</span> <span style="color: #000000; font-weight: bold">{</span>
+  <span style="color: #204a87; font-weight: bold">while</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #204a87">true</span><span style="color: #000000; font-weight: bold">)</span> <span style="color: #000000; font-weight: bold">{</span>
+    <span style="color: #000000">int64_type</span> <span style="color: #000000">SZ</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">P</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">-</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">cin</span> <span style="color: #ce5c00; font-weight: bold">&gt;&gt;</span> <span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">cin</span> <span style="color: #ce5c00; font-weight: bold">&gt;&gt;</span> <span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">SZ</span><span style="color: #ce5c00; font-weight: bold">==</span><span style="color: #0000cf; font-weight: bold">0</span> <span style="color: #ce5c00; font-weight: bold">&amp;&amp;</span> <span style="color: #000000">P</span><span style="color: #ce5c00; font-weight: bold">==</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #000000; font-weight: bold">)</span>
+      <span style="color: #204a87; font-weight: bold">break</span><span style="color: #000000; font-weight: bold">;</span>
+    <span style="color: #000000">solve</span><span style="color: #000000; font-weight: bold">(</span><span style="color: #000000">SZ</span><span style="color: #000000; font-weight: bold">,</span> <span style="color: #000000">P</span><span style="color: #000000; font-weight: bold">);</span>
+  <span style="color: #000000; font-weight: bold">}</span>
+<span style="color: #000000; font-weight: bold">}</span>
+</pre></td></tr></table></div>

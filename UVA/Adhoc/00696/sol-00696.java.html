@@ -1,0 +1,132 @@
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #8f5902; font-style: italic">// 00696 - max knights on chess board</span>
+<span style="color: #8f5902; font-style: italic">// https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=637</span>
+<span style="color: #8f5902; font-style: italic">// author: Senthil Kumar Thangavelu, email: kingjuliyen @ google&#39;s email.com</span>
+
+<span style="color: #204a87; font-weight: bold">import</span> <span style="color: #000000">java.util.*</span><span style="color: #ce5c00; font-weight: bold">;</span>
+
+<span style="color: #204a87; font-weight: bold">public</span> <span style="color: #204a87; font-weight: bold">class</span> <span style="color: #000000">Main</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+
+    <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">row</span><span style="color: #ce5c00; font-weight: bold">;</span>
+    <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">col</span><span style="color: #ce5c00; font-weight: bold">;</span>
+
+    <span style="color: #000000">Main</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">r</span><span style="color: #ce5c00; font-weight: bold">,</span> <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">c</span><span style="color: #ce5c00; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+	<span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">r</span><span style="color: #ce5c00; font-weight: bold">;</span>
+	<span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">c</span><span style="color: #ce5c00; font-weight: bold">;</span>
+    <span style="color: #ce5c00; font-weight: bold">}</span>
+
+    <span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">printAns</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">ans</span><span style="color: #ce5c00; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+	<span style="color: #8f5902; font-style: italic">// &quot;4 knights may be placed on a 2 row 3 column board.&quot;</span>
+	<span style="color: #000000">System</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">out</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">println</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">ans</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #4e9a06">&quot; knights may be placed on a &quot;</span><span style="color: #ce5c00; font-weight: bold">+</span>
+			   <span style="color: #000000">row</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #4e9a06">&quot; row &quot;</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #000000">col</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #4e9a06">&quot; column board.&quot;</span><span style="color: #ce5c00; font-weight: bold">);</span>
+    <span style="color: #ce5c00; font-weight: bold">}</span>
+
+    <span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">solve</span><span style="color: #ce5c00; font-weight: bold">()</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+
+	<span style="color: #204a87; font-weight: bold">if</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #0000cf; font-weight: bold">1</span> <span style="color: #ce5c00; font-weight: bold">||</span> <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #0000cf; font-weight: bold">1</span><span style="color: #ce5c00; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+	    <span style="color: #000000">printAns</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">Math</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">max</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">row</span><span style="color: #ce5c00; font-weight: bold">,</span><span style="color: #000000">col</span><span style="color: #ce5c00; font-weight: bold">));</span>
+	    <span style="color: #204a87; font-weight: bold">return</span><span style="color: #ce5c00; font-weight: bold">;</span>
+	<span style="color: #ce5c00; font-weight: bold">}</span>
+
+	<span style="color: #204a87; font-weight: bold">if</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #0000cf; font-weight: bold">2</span> <span style="color: #ce5c00; font-weight: bold">||</span> <span style="color: #000000">col</span> <span style="color: #ce5c00; font-weight: bold">==</span> <span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+	    <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">d</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">Math</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">max</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">row</span><span style="color: #ce5c00; font-weight: bold">,</span><span style="color: #000000">col</span><span style="color: #ce5c00; font-weight: bold">);</span>
+
+	    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">d</span> <span style="color: #ce5c00; font-weight: bold">&lt;=</span> <span style="color: #0000cf; font-weight: bold">4</span><span style="color: #ce5c00; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+		<span style="color: #000000">printAns</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #0000cf; font-weight: bold">4</span><span style="color: #ce5c00; font-weight: bold">);</span>
+		<span style="color: #204a87; font-weight: bold">return</span><span style="color: #ce5c00; font-weight: bold">;</span>
+	    <span style="color: #ce5c00; font-weight: bold">}</span>
+
+	    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">d</span><span style="color: #ce5c00; font-weight: bold">%</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">!=</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #ce5c00; font-weight: bold">)</span>
+		<span style="color: #000000">printAns</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">d</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #ce5c00; font-weight: bold">);</span>
+	    <span style="color: #204a87; font-weight: bold">else</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+		<span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">v</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">row</span><span style="color: #ce5c00; font-weight: bold">*</span><span style="color: #000000">col</span><span style="color: #ce5c00; font-weight: bold">)/</span><span style="color: #0000cf; font-weight: bold">4</span><span style="color: #ce5c00; font-weight: bold">;</span>
+		<span style="color: #000000">v</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">v</span><span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #0000cf; font-weight: bold">1</span><span style="color: #ce5c00; font-weight: bold">)/</span><span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">;</span>
+		<span style="color: #000000">v</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">v</span> <span style="color: #ce5c00; font-weight: bold">*</span> <span style="color: #0000cf; font-weight: bold">4</span><span style="color: #ce5c00; font-weight: bold">;</span>
+		<span style="color: #000000">printAns</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">v</span><span style="color: #ce5c00; font-weight: bold">);</span>
+	    <span style="color: #ce5c00; font-weight: bold">}</span>
+	    <span style="color: #204a87; font-weight: bold">return</span><span style="color: #ce5c00; font-weight: bold">;</span>
+	<span style="color: #ce5c00; font-weight: bold">}</span>
+	<span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">a</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #ce5c00; font-weight: bold">((</span><span style="color: #000000">row</span> <span style="color: #ce5c00; font-weight: bold">*</span> <span style="color: #000000">col</span><span style="color: #ce5c00; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">+</span><span style="color: #0000cf; font-weight: bold">1</span> <span style="color: #ce5c00; font-weight: bold">)</span> <span style="color: #ce5c00; font-weight: bold">/</span> <span style="color: #0000cf; font-weight: bold">2</span><span style="color: #ce5c00; font-weight: bold">;</span>
+	<span style="color: #000000">printAns</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">a</span><span style="color: #ce5c00; font-weight: bold">);</span>
+    <span style="color: #ce5c00; font-weight: bold">}</span>
+
+
+    <span style="color: #204a87; font-weight: bold">public</span> <span style="color: #204a87; font-weight: bold">static</span> <span style="color: #204a87; font-weight: bold">void</span> <span style="color: #000000">main</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">String</span> <span style="color: #000000">args</span><span style="color: #ce5c00; font-weight: bold">[])</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+	<span style="color: #000000">Scanner</span> <span style="color: #000000">sc</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #204a87; font-weight: bold">new</span> <span style="color: #000000">Scanner</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">System</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">in</span><span style="color: #ce5c00; font-weight: bold">);</span>
+
+	<span style="color: #204a87; font-weight: bold">while</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">sc</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">hasNextInt</span><span style="color: #ce5c00; font-weight: bold">())</span> <span style="color: #ce5c00; font-weight: bold">{</span>
+	    <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">M</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">sc</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">nextInt</span><span style="color: #ce5c00; font-weight: bold">();</span>
+	    <span style="color: #204a87; font-weight: bold">int</span> <span style="color: #000000">N</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #000000">sc</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">nextInt</span><span style="color: #ce5c00; font-weight: bold">();</span>
+	    <span style="color: #204a87; font-weight: bold">if</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">M</span><span style="color: #ce5c00; font-weight: bold">==</span><span style="color: #0000cf; font-weight: bold">0</span> <span style="color: #ce5c00; font-weight: bold">&amp;&amp;</span> <span style="color: #000000">N</span><span style="color: #ce5c00; font-weight: bold">==</span><span style="color: #0000cf; font-weight: bold">0</span><span style="color: #ce5c00; font-weight: bold">)</span>
+		<span style="color: #204a87; font-weight: bold">break</span><span style="color: #ce5c00; font-weight: bold">;</span>
+
+	    <span style="color: #000000">Main</span> <span style="color: #000000">m</span> <span style="color: #ce5c00; font-weight: bold">=</span> <span style="color: #204a87; font-weight: bold">new</span> <span style="color: #000000">Main</span><span style="color: #ce5c00; font-weight: bold">(</span><span style="color: #000000">M</span><span style="color: #ce5c00; font-weight: bold">,</span><span style="color: #000000">N</span><span style="color: #ce5c00; font-weight: bold">);</span>
+	    <span style="color: #000000">m</span><span style="color: #ce5c00; font-weight: bold">.</span><span style="color: #c4a000">solve</span><span style="color: #ce5c00; font-weight: bold">();</span>
+	<span style="color: #ce5c00; font-weight: bold">}</span>
+    <span style="color: #ce5c00; font-weight: bold">}</span>
+<span style="color: #ce5c00; font-weight: bold">}</span>
+</pre></td></tr></table></div>
