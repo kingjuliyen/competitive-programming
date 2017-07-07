@@ -15,27 +15,26 @@ public class Main {
         coeff = _coeff; d = _d; k = _k;
       }
 
-      void solve() {
-        int x = 0, acc = 0; // accumulator
-        BigInteger acbig = new BigInteger("0");
+    void solve() {
+      long x = 0, acc = 0; // accumulator
 
-        for (int i=1; i<=1000000; i++) {
-          int oldAcc = acc;
-          acc += d * i;
-          if(k > oldAcc && k <= acc) {
-            x = i;
-            break;
-          }
+      for (int i=1; i<=1000000; i++) {
+        long oldAcc = acc;
+        acc += d * i;
+        if(k > oldAcc && k <= acc) {
+          x = i;
+          break;
         }
-
-        for(int i=0; i<coeff.length; i++) {
-          BigInteger cf = new BigInteger(Integer.toString(coeff[i]));
-          BigInteger x1 = new BigInteger(Integer.toString(x));
-          acbig = acbig.add(cf.multiply(x1.pow(i)));
-        }
-       System.out.println(acbig);
       }
-    }
+
+      acc = 0;
+      for(int i=0; i<coeff.length; i++) {
+        acc += coeff[i] * Math.pow(x, i);
+      }
+      System.out.println(acc);
+    } // void solve()
+
+  }
 
     public static void main(String args[]) {
       Scanner sc = new Scanner(System.in);
