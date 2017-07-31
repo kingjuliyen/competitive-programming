@@ -19,19 +19,61 @@ public:
   KWG(int _R, int _C, int _M, int _N) : R(_R), 
   C(_C), M(_M), N(_N), x(0), y(0) { }
 
-  Cell MhorNver(Cell &s) { // M HORIZONTAL, N VERTICAL
+  Cell MHR_NVU(Cell &s) { // M HORIZONTAL, N VERTICAL
+    Cell d(-15, -15);
+    if(isWaterBlocked(s, d))
+      return Cell::BADCELL();
+    return Cell::BADCELL();
+  }
+  Cell MHL_NVU(Cell &s) { // M HORIZONTAL, N VERTICAL
+    Cell d(-15, -15);
+    if(isWaterBlocked(s, d))
+      return Cell::BADCELL();
+    return Cell::BADCELL();
+  }
+  Cell MHR_NVD(Cell &s) { // M HORIZONTAL, N VERTICAL
+    Cell d(-15, -15);
+    if(isWaterBlocked(s, d))
+      return Cell::BADCELL();
+    return Cell::BADCELL();
+  }
+  Cell MHL_NVD(Cell &s) { // M HORIZONTAL, N VERTICAL
     Cell d(-15, -15);
     if(isWaterBlocked(s, d))
       return Cell::BADCELL();
     return Cell::BADCELL();
   }
 
-  Cell NhorMver(Cell &s) { // N HORIZONTAL, N VERTICAL
+
+  Cell NHR_MVU(Cell &s) { // N HORIZONTAL, N VERTICAL
     Cell d(-16, -16);
     if(isWaterBlocked(s, d))
       return Cell::BADCELL();
     return Cell::BADCELL();
   }
+
+  Cell NHL_MVU(Cell &s) { // N HORIZONTAL, N VERTICAL
+    Cell d(-16, -16);
+    if(isWaterBlocked(s, d))
+      return Cell::BADCELL();
+    return Cell::BADCELL();
+  }
+  Cell NHR_MVD(Cell &s) { // N HORIZONTAL, N VERTICAL
+    Cell d(-16, -16);
+    if(isWaterBlocked(s, d))
+      return Cell::BADCELL();
+    return Cell::BADCELL();
+  }
+
+  Cell NHL_MVD(Cell &s) { // N HORIZONTAL, N VERTICAL
+    Cell d(-16, -16);
+    if(isWaterBlocked(s, d))
+      return Cell::BADCELL();
+    return Cell::BADCELL();
+  }
+
+
+
 
   bool isWaterBlocked(Cell &s, Cell &d) {
     return false;
@@ -64,8 +106,17 @@ public:
       return;
 
     addToSearchPathList(cur);
-    tryNextMove(MhorNver, cur); // M HORIZONTAL, N VERTICAL
-    tryNextMove(NhorMver, cur); // N HORIZONTAL, N VERTICAL
+    
+    tryNextMove(MHR_NVU, cur); 
+    tryNextMove(MHL_NVU, cur); 
+    tryNextMove(MHR_NVD, cur); 
+    tryNextMove(MHL_NVD, cur); 
+
+    tryNextMove(NHR_MVU, cur); 
+    tryNextMove(NHL_MVU, cur); 
+    tryNextMove(NHR_MVD, cur); 
+    tryNextMove(NHL_MVD, cur);
+    
     removeFromSearchPathList(cur);
   }
 
@@ -74,8 +125,7 @@ public:
   }
 
   void solve() {
-    Cell c(0, 0);
-    dfs(c);
+    dfs(Cell(0,0));
   }
 };
 
