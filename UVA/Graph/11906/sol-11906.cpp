@@ -10,97 +10,133 @@ using namespace std;
 
 struct Cell {
   int x, y;
-  Cell(int _x, int _y): x(_x), y(_y) { }
-  static Cell BADCELL (); // { return Cell(-5, -5); }
-  bool isValid() { return !(x == -5 && y == -5); }
+  Cell(int _x, int _y) : x(_x), y(_y) {}
+  void print() { cout << " x " << x << " y " << y << "\n"; }
 };
-Cell Cell::BADCELL () { return Cell(-5, -5); }
 
-class KWG { // Knight War Grid
+enum MOV_SEQ { HOR_VER = 0x53, VER_HOR };
+
+class KWG
+{ // Knight War Grid
 public:
   int R, C, M, N, x, y;
-  vector<bool> spl; // search path list
+  vector<bool> spl;   // search path list
   vector<Cell> wtrCl; // water cells
 
-  KWG(int _R, int _C, int _M, int _N) : R(_R), 
-  C(_C), M(_M), N(_N), x(0), y(0) { 
-    spl = vector<bool>(R*C, false);
+  KWG(int _R, int _C, int _M, int _N) : R(_R),
+    C(_C), M(_M), N(_N), x(0), y(0) {
+    spl = vector<bool>(R * C, false);
   }
 
-  #define SPLVAL spl[(c.x * C + c.y)]
+#define SPLVAL spl[(c.x * C + c.y)]
   bool isFoundInSearchPathListAlready(Cell &c) { return SPLVAL == true; }
   void addToSearchPathList(Cell &c) { SPLVAL = true; }
-  void removeFromSearchPathList(Cell &c) { SPLVAL = false; }
-
-  bool outOfBounds(Cell &c) {
-    return (c.x >= 0 && c.x < C && c.y >=0 && c.y < R) ? false : true;
+  void removeFromSearchPathList(Cell &c) { SPLVAL = false; } 
+  void updateReachability(Cell &d, Cell &s) {
   }
 
-  bool isMoveValid(Cell & s, Cell &d) {
-    return (outOfBounds(d) || isWaterBlocked(s, d)) ? false : true;
+#define BAD_VAL (-500)
+  Cell BAD_CELL() { return Cell(BAD_VAL, BAD_VAL); }
+  void SET_CELL(Cell &orig, Cell &tmp) { tmp.x = orig.x;  tmp.y = orig.y; }
+  void SET_CELL_BAD(Cell &c) { c.x = BAD_VAL; c.y = BAD_VAL; }
+  bool IS_BAD_CELL(Cell &c) { return (c.x == BAD_VAL && c.y == BAD_VAL); }
+
+  bool cell_range_ok(Cell &c)  {
+    return (c.x >= 0 && c.x < C) && (c.y >= 0 && c.y < R);
   }
 
-  bool isWaterBlocked(Cell &s, Cell &d) {
-    int x0 = min(s.x, d.x), x1 = max(s.x, d.x);
-    int y0 = min(s.y, d.y), y1 = max(s.y, d.y);
-
-    for(auto i = wtrCl.begin(), e = wtrCl.end(); i != e; ++i) {
+  bool water_in_path(Cell &c1, Cell &c2, Cell &c3, MOV_SEQ sq)
+  {
+    for (auto i = wtrCl.begin(), e = wtrCl.end(); i != e; ++i) {
       int wx = i->x, wy = i->y;
-      if( (wy == s.y && wx >= x0 && wx <= x1) ||
-          (wx == d.x && wy >= y0 && wy <= y1) )
-        return true;
+      if (sq == HOR_VER) {
+        int x1 = min(c1.x, c2.x), x2 = max(c1.x, c2.x), y = c1.y;
+        bool b1 = (wy == y && wx >= x1 && wx <= x2);
+        if (b1) {
+          return true;
+        }
+
+        int y1 = min(c2.y, c3.y), y2 = max(c2.y, c3.y), x = c3.x;
+        bool b2 = (wx == x && wy >= y1 && wy <= y2);
+        if (b2) {
+          return true;
+        }
+      }
+      else {
+        int y1 = min(c1.y, c2.y), y2 = max(c1.y, c2.y), x = c1.x;
+        bool b1 = (wx == x && wy >= y1 && wy <= y2);
+        if (b1) {
+          return true;
+        }
+
+        int x1 = min(c2.x, c3.x), x2 = max(c2.x, c3.x), y = c3.y;
+        bool b2 = (wy == y && wx >= x1 && wx <= x2);
+        if (b2) {
+          return true;
+        }
+      }
     }
     return false;
   }
 
-  void updateReachability(Cell &d, Cell &s) {
+  void next_mov(Cell &s, Cell &range_end, Cell &d, Cell &out, MOV_SEQ sq)  {
+    if (!cell_range_ok(s) || !cell_range_ok(range_end) || !cell_range_ok(d)) {
+      SET_CELL_BAD(out);
+      return;
+    }
+
+    if (water_in_path(s, range_end, d, sq)) {
+      SET_CELL_BAD(out);
+      return;
+    }
+    SET_CELL(d, out);
   }
 
-#define tryNextMove(s, dx, dy) \
-  do { \
-    Cell d = Cell(dx, dy); \
-    if(isMoveValid(s, d)) { \
-        updateReachability(d, s); /* dst can be reached from src */ \
-        dfs(d); \
-    } \
-  } while(0)
+  #define TRY_MOVE(dx1, dy1, dx2, dy2, dir) \
+    do { \
+      Cell out = BAD_CELL(); \
+      Cell tmp(src.x + dx1, src.y + dy1); Cell dst(tmp.x + dx2, tmp.y + dy2); \
+      next_mov(src, tmp, dst, out, dir); \
+    } while(0)
 
   void dfs(Cell src) {
-    if(isFoundInSearchPathListAlready(src))
+    if (isFoundInSearchPathListAlready(src))
       return;
 
-    addToSearchPathList(src);
-    {
-      tryNextMove(src, src.x + M, src.y - N); // MHR_NVU,
-      tryNextMove(src, src.x - M, src.y - N); // MHL_NVU,
-      tryNextMove(src, src.x + M, src.y + N); // MHR_NVD,
-      tryNextMove(src, src.x - M, src.y + N); // MHL_NVD, 
+    TRY_MOVE( M, 0, 0, -N, HOR_VER);
+    TRY_MOVE( M, 0, 0,  N, HOR_VER);
+    TRY_MOVE(-M, 0, 0, -N, HOR_VER);
+    TRY_MOVE(-M, 0, 0,  N, HOR_VER);
 
-      tryNextMove(src, src.x + N, src.y - M); // NHR_MVU,
-      tryNextMove(src, src.x - N, src.y - M); // NHL_MVU,
-      tryNextMove(src, src.x + N, src.y + M); // NHR_MVD,
-      tryNextMove(src, src.x - N, src.y + M); // NHL_MVD,
-    }
-    removeFromSearchPathList(src);
+    TRY_MOVE(0,  M,  N, 0, VER_HOR);
+    TRY_MOVE(0,  M, -N, 0, VER_HOR);
+    TRY_MOVE(0, -M,  N, 0, VER_HOR);
+    TRY_MOVE(0, -M, -N, 0, VER_HOR);
+
+    addToSearchPathList(src);
+    removeFromSearchPathList(src);// s == source
   }
 
   void markWaterSquare(int _x, int _y) { wtrCl.push_back(Cell(_x, _y)); }
 };
 
-int main() {
+int main()
+{
   int T = -1;
   cin >> T;
-  while(T--) {
+  while (T--)
+  {
     int R = -1, C = -1, M = -1, N = -1, W = -1, x = -1, y = -1;
-    cin >> R >> C >> M >> N;    
+    cin >> R >> C >> M >> N;
     cin >> W;
-    cout << " R " << R << " C " << C << " M " << " N " << N << " W " << W << "\n" ;
+    cout << " R " << R << " C " << C << " M " << M << " N " << N << " W " << W << "\n";
     KWG kwg(R, C, M, N);
-    while(W--) {
+    while (W--)
+    {
       cin >> x >> y;
       cout << " x " << x << " y " << y << "\n";
       kwg.markWaterSquare(x, y);
     }
-    kwg.dfs(Cell(0,0));
+    kwg.dfs(Cell(0, 0));
   }
 }
