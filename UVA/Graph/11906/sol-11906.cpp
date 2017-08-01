@@ -45,38 +45,47 @@ public:
     return (c.x >= 0 && c.x < C) && (c.y >= 0 && c.y < R);
   }
 
-  bool water_in_path(Cell &c1, Cell &c2, Cell &c3, MOV_SEQ sq)
+  bool water_in_path_hv(Cell &c1, Cell &c2, Cell &c3)
   {
     for (auto i = wtrCl.begin(), e = wtrCl.end(); i != e; ++i) {
       int wx = i->x, wy = i->y;
-      if (sq == HOR_VER) {
-        int x1 = min(c1.x, c2.x), x2 = max(c1.x, c2.x), y = c1.y;
-        bool b1 = (wy == y && wx >= x1 && wx <= x2);
-        if (b1) {
-          return true;
-        }
-
-        int y1 = min(c2.y, c3.y), y2 = max(c2.y, c3.y), x = c3.x;
-        bool b2 = (wx == x && wy >= y1 && wy <= y2);
-        if (b2) {
-          return true;
-        }
+      int x1 = min(c1.x, c2.x), x2 = max(c1.x, c2.x), y = c1.y;
+      bool b1 = (wy == y && wx >= x1 && wx <= x2);
+      if (b1) {
+        return true;
       }
-      else {
-        int y1 = min(c1.y, c2.y), y2 = max(c1.y, c2.y), x = c1.x;
-        bool b1 = (wx == x && wy >= y1 && wy <= y2);
-        if (b1) {
-          return true;
-        }
 
-        int x1 = min(c2.x, c3.x), x2 = max(c2.x, c3.x), y = c3.y;
-        bool b2 = (wy == y && wx >= x1 && wx <= x2);
-        if (b2) {
-          return true;
-        }
+      int y1 = min(c2.y, c3.y), y2 = max(c2.y, c3.y), x = c3.x;
+      bool b2 = (wx == x && wy >= y1 && wy <= y2);
+      if (b2) {
+        return true;
       }
     }
     return false;
+  }
+
+    bool water_in_path_vh(Cell &c1, Cell &c2, Cell &c3) {
+    for (auto i = wtrCl.begin(), e = wtrCl.end(); i != e; ++i) {
+      int wx = i->x, wy = i->y;
+
+      int y1 = min(c1.y, c2.y), y2 = max(c1.y, c2.y), x = c1.x;
+      bool b1 = (wx == x && wy >= y1 && wy <= y2);
+      if (b1) {
+        return true;
+      }
+
+      int x1 = min(c2.x, c3.x), x2 = max(c2.x, c3.x), y = c3.y;
+      bool b2 = (wy == y && wx >= x1 && wx <= x2);
+      if (b2) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool water_in_path(Cell &c1, Cell &c2, Cell &c3, MOV_SEQ sq)
+  {
+    return (sq == HOR_VER) ? water_in_path_hv(c1, c2, c3) : water_in_path_vh(c1, c2, c3);
   }
 
   void next_mov(Cell &s, Cell &range_end, Cell &d, Cell &out, MOV_SEQ sq)  {
