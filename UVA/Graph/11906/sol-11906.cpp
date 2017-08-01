@@ -65,23 +65,23 @@ public:
   }
 
     bool water_in_path_vh(Cell &c1, Cell &c2, Cell &c3) {
-    for (auto i = wtrCl.begin(), e = wtrCl.end(); i != e; ++i) {
-      int wx = i->x, wy = i->y;
+      for (auto i = wtrCl.begin(), e = wtrCl.end(); i != e; ++i) {
+        int wx = i->x, wy = i->y;
 
-      int y1 = min(c1.y, c2.y), y2 = max(c1.y, c2.y), x = c1.x;
-      bool b1 = (wx == x && wy >= y1 && wy <= y2);
-      if (b1) {
-        return true;
-      }
+        int y1 = min(c1.y, c2.y), y2 = max(c1.y, c2.y), x = c1.x;
+        bool b1 = (wx == x && wy >= y1 && wy <= y2);
+        if (b1) {
+          return true;
+       }
 
-      int x1 = min(c2.x, c3.x), x2 = max(c2.x, c3.x), y = c3.y;
-      bool b2 = (wy == y && wx >= x1 && wx <= x2);
-      if (b2) {
-        return true;
+        int x1 = min(c2.x, c3.x), x2 = max(c2.x, c3.x), y = c3.y;
+        bool b2 = (wy == y && wx >= x1 && wx <= x2);
+        if (b2) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
 
   bool water_in_path(Cell &c1, Cell &c2, Cell &c3, MOV_SEQ sq)
   {
@@ -106,6 +106,9 @@ public:
       Cell out = BAD_CELL(); \
       Cell tmp(src.x + dx1, src.y + dy1); Cell dst(tmp.x + dx2, tmp.y + dy2); \
       next_mov(src, tmp, dst, out, dir); \
+      if(!IS_BAD_CELL(dst)) { \
+        dfs(dst); \
+      } \
     } while(0)
 
   void dfs(Cell src) {
