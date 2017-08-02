@@ -22,20 +22,26 @@ public:
   int R, C, M, N, x, y;
   vector<bool> spl;   // search path list
   vector<Cell> wtrCl; // water cells
+  vector <vector<int> *> dstMap;
 
   KWG(int _R, int _C, int _M, int _N) : R(_R),
     C(_C), M(_M), N(_N), x(0), y(0) {
-    spl = vector<bool>(R * C, false);
+    int T = R * C;
+    spl = vector<bool>(T, false);
+    dstMap = vector <vector<int> *> (T);
+    for (int i = 0; i < T; i++) {
+      dstMap[i] = new vector<int> (T, 0);
+    }
   }
 
-#define SPLVAL spl[(c.x * C + c.y)]
+  #define SPLVAL spl[(c.x * C + c.y)]
   bool isFoundInSearchPathListAlready(Cell &c) { return SPLVAL == true; }
   void addToSearchPathList(Cell &c) { SPLVAL = true; }
   void removeFromSearchPathList(Cell &c) { SPLVAL = false; } 
   void updateReachability(Cell &d, Cell &s) {
   }
 
-#define BAD_VAL (-500)
+  #define BAD_VAL (-500)
   Cell BAD_CELL() { return Cell(BAD_VAL, BAD_VAL); }
   void SET_CELL(Cell &orig, Cell &tmp) { tmp.x = orig.x;  tmp.y = orig.y; }
   void SET_CELL_BAD(Cell &c) { c.x = BAD_VAL; c.y = BAD_VAL; }
@@ -113,6 +119,47 @@ public:
     SET_CELL(d, out);
   }
 
+  #define OFST(k) (k.x * C + k.y)
+  #define OFST2(x0, y0) (x0 * C + y0)
+
+  void printPathToDst(int di) {
+    vector<int> * sbv = dstMap[di];
+    for(int i=0; i<(R*C); i++) {
+      int v = sbv->at(i);
+      cout << " dst " << di << " <- src " << i << " " << v << "\n";
+    }
+    cout << "\n";
+  }
+
+  void printStats() {
+    for (int d = 0; d<(R*C); d++) {
+      printPathToDst(d);
+    }
+  }
+  void setPathMarked(Cell &d, Cell &s) {
+    int svi = OFST(d);
+    vector<int> * sbv = dstMap[svi];
+    int smi = OFST(s);
+    sbv->at(smi) = sbv->at(smi) + 1;
+  }
+
+  void recordPathBetween(Cell &d, Cell &s) {
+    setPathMarked(d, s);
+    setPathMarked(s, d);
+  }
+
+  bool pathFoundBetween(Cell &d, Cell &s) {
+    int svi = OFST(d);
+    cout << " svi " << svi << "\n";
+    vector<int> * sbv = dstMap[svi];
+    int smi = OFST(s);
+    cout << " sbv " << sbv << "\n";
+    int v = sbv->at(smi);
+    bool b = (v > 0);
+    return b;
+    //return false;
+  }
+
   #define TRY_MOVE(dx1, dy1, dx2, dy2, dir, dbgstr) \
     do { \
       cout << "\n\n TRY_MOVE src "; src.print(); \
@@ -124,11 +171,20 @@ public:
       cout << " TRY_MOVE " << dbgstr << "\n"; \
       Cell out = BAD_CELL(); \
       Cell tmp(src.x + dx1, src.y + dy1); Cell dst(tmp.x + dx2, tmp.y + dy2); \
+      if (!cell_range_ok(src) || !cell_range_ok(dst)) { \
+        removeFromSearchPathList(src); \
+        break; \
+      } \
+      if(pathFoundBetween(dst, src)) { \
+        removeFromSearchPathList(src); \
+        break; \
+      } \
       cout << " src "; src.print(); \
       cout << " pivot "; tmp.print(); \
       cout << " dst "; dst.print(); \
       next_mov(src, tmp, dst, out, dir); \
       if(!IS_BAD_CELL(out)) { \
+        recordPathBetween(dst, src); \
         cout << " ##############  VALID PATH ##############  \n"; \
         dfs(dst); \
       } \
@@ -186,5 +242,6 @@ int main()
       kwg.markWaterSquare(x, y);
     }
     kwg.dfs(Cell(0, 0));
+    kwg.printStats();
   }
 }
