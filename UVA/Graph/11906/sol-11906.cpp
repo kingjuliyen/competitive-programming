@@ -30,18 +30,24 @@ public:
   vector<bool> spl;   // search path list
   vector<Cell> wtrCl; // water cells
   vector <vector<int> *> dstMap;
+  vector <bool> waterMap;
 
   KWG(int _R, int _C, int _M, int _N) : R(_R),
     C(_C), M(_M), N(_N), odds(0), evens(0) {
     int T = R * C;
     spl = vector<bool>(T, false);
     dstMap = vector <vector<int> *> (T);
+    waterMap = vector<bool>(T, false);
     for (int i = 0; i < T; i++) {
       dstMap[i] = new vector<int> (T, 0);
     }
   }
 
-  void markWaterSquare(int _x, int _y) { wtrCl.push_back(Cell(_x, _y)); } 
+  void markWaterSquare(int _x, int _y) {
+    waterMap[OFST2(_x, _y)] = true;
+    wtrCl.push_back(Cell(_x, _y)); 
+  }
+
   bool isFoundInSearchPathListAlready(Cell &c) { return SPLVAL == true; }
   void addToSearchPathList(Cell &c) { SPLVAL = true; }
   void removeFromSearchPathList(Cell &c) { SPLVAL = false; }
@@ -69,7 +75,9 @@ public:
   }
 
   bool water_in_path(Cell &c1, Cell &c2, Cell &c3, MOV_SEQ sq) {
-    return (sq == HOR_VER) ? water_in_path_hv(c1, c2, c3) : water_in_path_vh(c1, c2, c3);
+
+    return waterMap[OFST2(c3.x, c3.y)] == true;
+    // return (sq == HOR_VER) ? water_in_path_hv(c1, c2, c3) : water_in_path_vh(c1, c2, c3);
   }
 
   void next_mov(Cell &s, Cell &range_end, Cell &d, Cell &out, MOV_SEQ sq)  {
@@ -104,6 +112,8 @@ public:
   void recordPathBetween(Cell &d, Cell &s) { setPathMarked(d, s); setPathMarked(s, d); }
 
   void printOddsEvens(int caseId) {
+    if(!odds && !evens)
+      evens = 1;
     cout << "Case " << caseId << ":" << " " << evens << " " << odds << "\n";
   }
 
@@ -132,15 +142,18 @@ public:
     } while(0)
 
   void dfs(Cell src) {
-    TRY_MOVE( M, 0, 0, -N, HOR_VER); TRY_MOVE(0, -N,  M, 0, VER_HOR);
-    TRY_MOVE( M, 0, 0,  N, HOR_VER); TRY_MOVE(0,  N,  M, 0, VER_HOR);
-    TRY_MOVE(-M, 0, 0, -N, HOR_VER); TRY_MOVE(0, -N, -M, 0, VER_HOR);
-    TRY_MOVE(-M, 0, 0,  N, HOR_VER); TRY_MOVE(0,  N, -M, 0, VER_HOR);
+    TRY_MOVE( M, 0, 0, -N, HOR_VER); // TRY_MOVE(0, -N,  M, 0, VER_HOR);
+    TRY_MOVE( M, 0, 0,  N, HOR_VER); //TRY_MOVE(0,  N,  M, 0, VER_HOR);
+    TRY_MOVE(-M, 0, 0, -N, HOR_VER); //TRY_MOVE(0, -N, -M, 0, VER_HOR);
+    TRY_MOVE(-M, 0, 0,  N, HOR_VER); //TRY_MOVE(0,  N, -M, 0, VER_HOR);
+    
+    if(M == N)
+        return;
 
-    TRY_MOVE(0,  M,  N, 0, VER_HOR); TRY_MOVE(N,  0,  0, M, HOR_VER);
-    TRY_MOVE(0,  M, -N, 0, VER_HOR); TRY_MOVE(-N,  0, 0, M, HOR_VER);
-    TRY_MOVE(0, -M,  N, 0, VER_HOR); TRY_MOVE(N, 0,  0, -M, HOR_VER);
-    TRY_MOVE(0, -M, -N, 0, VER_HOR); TRY_MOVE(-N, 0, 0, -M, HOR_VER);
+    TRY_MOVE(0,  M,  N, 0, VER_HOR); //TRY_MOVE(N,  0,  0, M, HOR_VER);
+    TRY_MOVE(0,  M, -N, 0, VER_HOR); //TRY_MOVE(-N,  0, 0, M, HOR_VER);
+    TRY_MOVE(0, -M,  N, 0, VER_HOR); //TRY_MOVE(N, 0,  0, -M, HOR_VER);
+    TRY_MOVE(0, -M, -N, 0, VER_HOR); // TRY_MOVE(-N, 0, 0, -M, HOR_VER);
   }  
 }; // class KWG
 
