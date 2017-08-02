@@ -90,24 +90,24 @@ public:
     // cout << "after unmarkVisited(x, y); \n";
   }
   
-  void printStats() {
+  void printStats(int caseId) {
     int odds = 0, evens = 0;
-    // pathCount[0] = 0;
     for(auto i= pathCount.begin(), e = pathCount.end(); i!=e; ++i) {
-      // cout << " i->first " << i->first << endl;
-      // cout << " i->second " << i->second << endl;
       int v = i->second;
       if(v & 0x01)
         odds += 1;
       else
         evens += 1;
     }
-    cout << " evens " << evens << " odds " << odds << endl;
+    // cout << " evens " << evens << " odds " << odds << endl;
+    if(!odds && !evens)
+    evens = 1;
+    cout << "Case " << caseId << ":" << " " << evens << " " << odds << "\n";
   }
 
-  void solve() {
+  void solve(int caseId) {
     dfs(0, 0);
-    printStats();
+    printStats(caseId);
   }
 }; // class KWG
 
@@ -126,8 +126,6 @@ int main()
       cin >> x >> y;
       kwg.markWaterSquare(x, y);
     }
-    kwg.solve();
-    //kwg.getStats();
-    //kwg.printOddsEvens(++caseId);
+    kwg.solve(++caseId);
   }
 }
