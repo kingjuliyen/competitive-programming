@@ -65,7 +65,10 @@ public:
   }
 
   void dfs(int x, int y) {
-    // cout << "src " << x << "," << y << endl; 
+    if(waterSquare(make_pair(x, y)))
+      return;
+
+    // cout << "src " << x << "," << y << endl;
     markVisited(x, y);
 
     for(int i=0; i<deltas.size()/2; i++) {
