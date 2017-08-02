@@ -39,7 +39,11 @@ public:
   Cell BAD_CELL() { return Cell(BAD_VAL, BAD_VAL); }
   void SET_CELL(Cell &orig, Cell &tmp) { tmp.x = orig.x;  tmp.y = orig.y; }
   void SET_CELL_BAD(Cell &c) { c.x = BAD_VAL; c.y = BAD_VAL; }
-  bool IS_BAD_CELL(Cell &c) { return (c.x == BAD_VAL && c.y == BAD_VAL); }
+  bool IS_BAD_CELL(Cell &c) { 
+    cout << " IS_BAD_CELL\n ";
+    c.print();
+    return (c.x == BAD_VAL && c.y == BAD_VAL); 
+  }
 
   bool cell_range_ok(Cell &c)  {
     return (c.x >= 0 && c.x < C) && (c.y >= 0 && c.y < R);
@@ -52,15 +56,18 @@ public:
       int x1 = min(c1.x, c2.x), x2 = max(c1.x, c2.x), y = c1.y;
       bool b1 = (wy == y && wx >= x1 && wx <= x2);
       if (b1) {
+        cout << "water_in_path_hv (wy == y && wx >= x1 && wx <= x2)\n";
         return true;
       }
 
       int y1 = min(c2.y, c3.y), y2 = max(c2.y, c3.y), x = c3.x;
       bool b2 = (wx == x && wy >= y1 && wy <= y2);
       if (b2) {
+        cout << "water_in_path_hv (wx == x && wy >= y1 && wy <= y2)\n";
         return true;
       }
     }
+    cout << "water_in_path_hv false\n";
     return false;
   }
 
@@ -71,15 +78,18 @@ public:
         int y1 = min(c1.y, c2.y), y2 = max(c1.y, c2.y), x = c1.x;
         bool b1 = (wx == x && wy >= y1 && wy <= y2);
         if (b1) {
+          cout << "water_in_path_vh (wx == x && wy >= y1 && wy <= y2)\n";
           return true;
        }
 
         int x1 = min(c2.x, c3.x), x2 = max(c2.x, c3.x), y = c3.y;
         bool b2 = (wy == y && wx >= x1 && wx <= x2);
         if (b2) {
+          cout << "water_in_path_vh (wy == y && wx >= x1 && wx <= x2)";
           return true;
         }
       }
+      cout << "water_in_path_vh false\n";
       return false;
     }
 
@@ -90,7 +100,9 @@ public:
 
   void next_mov(Cell &s, Cell &range_end, Cell &d, Cell &out, MOV_SEQ sq)  {
     if (!cell_range_ok(s) || !cell_range_ok(range_end) || !cell_range_ok(d)) {
+      cout << "!cell_range_ok(s) || !cell_range_ok(range_end) || !cell_range_ok(d)\n";
       SET_CELL_BAD(out);
+      out.print();
       return;
     }
 
@@ -101,32 +113,56 @@ public:
     SET_CELL(d, out);
   }
 
-  #define TRY_MOVE(dx1, dy1, dx2, dy2, dir) \
+  #define TRY_MOVE(dx1, dy1, dx2, dy2, dir, dbgstr) \
     do { \
+      cout << "\n\n TRY_MOVE src "; src.print(); \
+      if (isFoundInSearchPathListAlready(src)) { \
+        cout << " isFoundInSearchPathListAlready(src) \n"; \
+        break; \
+      } \
+      addToSearchPathList(src); \
+      cout << " TRY_MOVE " << dbgstr << "\n"; \
       Cell out = BAD_CELL(); \
       Cell tmp(src.x + dx1, src.y + dy1); Cell dst(tmp.x + dx2, tmp.y + dy2); \
+      cout << " src "; src.print(); \
+      cout << " pivot "; tmp.print(); \
+      cout << " dst "; dst.print(); \
       next_mov(src, tmp, dst, out, dir); \
-      if(!IS_BAD_CELL(dst)) { \
+      if(!IS_BAD_CELL(out)) { \
+        cout << " ##############  VALID PATH ##############  \n"; \
         dfs(dst); \
       } \
+      removeFromSearchPathList(src); \
     } while(0)
 
   void dfs(Cell src) {
-    if (isFoundInSearchPathListAlready(src))
-      return;
+    // if (isFoundInSearchPathListAlready(src))
+    //   return;
 
-    TRY_MOVE( M, 0, 0, -N, HOR_VER);
-    TRY_MOVE( M, 0, 0,  N, HOR_VER);
-    TRY_MOVE(-M, 0, 0, -N, HOR_VER);
-    TRY_MOVE(-M, 0, 0,  N, HOR_VER);
+    TRY_MOVE( M, 0, 0, -N, HOR_VER, "MN hor right, ver up");
+    TRY_MOVE( M, 0, 0,  N, HOR_VER, "MN hor right, ver down");
+    TRY_MOVE(-M, 0, 0, -N, HOR_VER, "MN hor left, ver up");
+    TRY_MOVE(-M, 0, 0,  N, HOR_VER, "MN hor left, ver down");
 
-    TRY_MOVE(0,  M,  N, 0, VER_HOR);
-    TRY_MOVE(0,  M, -N, 0, VER_HOR);
-    TRY_MOVE(0, -M,  N, 0, VER_HOR);
-    TRY_MOVE(0, -M, -N, 0, VER_HOR);
+    TRY_MOVE(0, -N,  M, 0, VER_HOR, "MN ver up hor right, ");
+    TRY_MOVE(0,  N,  M, 0, VER_HOR, "MN ver down hor right, ");
+    TRY_MOVE(0, -N, -M, 0, VER_HOR, "MN ver up hor left, ");
+    TRY_MOVE(0,  N, -M, 0, VER_HOR, "MN ver down hor left, ");
 
-    addToSearchPathList(src);
-    removeFromSearchPathList(src);// s == source
+    TRY_MOVE(0,  M,  N, 0, VER_HOR, "NM ver down, hor right");
+    TRY_MOVE(0,  M, -N, 0, VER_HOR, "NM ver down, hor left");
+    TRY_MOVE(0, -M,  N, 0, VER_HOR, "NM ver up, hor right");
+    TRY_MOVE(0, -M, -N, 0, VER_HOR, "NM ver up, hor left");
+
+    TRY_MOVE(N,  0,  0, M, HOR_VER, "NM hor right ver down, ");
+    TRY_MOVE(-N,  0, 0, M, HOR_VER, "NM hor left ver down, ");
+    TRY_MOVE(N, 0,  0, -M, HOR_VER, "NM hor right ver up, ");
+    TRY_MOVE(-N, 0, 0, -M, HOR_VER, "NM hor left ver up, ");
+    
+
+
+    // addToSearchPathList(src);
+    // removeFromSearchPathList(src);// s == source
   }
 
   void markWaterSquare(int _x, int _y) { wtrCl.push_back(Cell(_x, _y)); }
