@@ -19,13 +19,13 @@ enum MOV_SEQ { HOR_VER = 0x53, VER_HOR };
 class KWG
 { // Knight War Grid
 public:
-  int R, C, M, N, x, y;
+  int R, C, M, N, x, y, odds, evens;
   vector<bool> spl;   // search path list
   vector<Cell> wtrCl; // water cells
   vector <vector<int> *> dstMap;
 
   KWG(int _R, int _C, int _M, int _N) : R(_R),
-    C(_C), M(_M), N(_N), x(0), y(0) {
+    C(_C), M(_M), N(_N), x(0), y(0), odds(0), evens(0) {
     int T = R * C;
     spl = vector<bool>(T, false);
     dstMap = vector <vector<int> *> (T);
@@ -122,20 +122,37 @@ public:
   #define OFST(k) (k.x * C + k.y)
   #define OFST2(x0, y0) (x0 * C + y0)
 
-  void printPathToDst(int di) {
+
+
+  void countPathToDst(int di) {
     vector<int> * sbv = dstMap[di];
+    int count = 0;
     for(int i=0; i<(R*C); i++) {
       int v = sbv->at(i);
       cout << " dst " << di << " <- src " << i << " " << v << "\n";
+      count += (v>0) ? 1 : 0;
     }
-    cout << "\n";
+    cout << " count " << count << "\n";
+    if(count > 0) {
+      if(count & 1) {
+        odds += 1;
+      }
+      else {
+        evens += 1;
+      }
+    }
   }
 
-  void printStats() {
+  void getStats() {
     for (int d = 0; d<(R*C); d++) {
-      printPathToDst(d);
+      countPathToDst(d);
     }
   }
+
+  void printOddsEvens(int caseId) {
+    cout << "Case " << caseId << ":" << " " << evens << " " << odds << "\n";
+  }
+
   void setPathMarked(Cell &d, Cell &s) {
     int svi = OFST(d);
     vector<int> * sbv = dstMap[svi];
@@ -226,8 +243,9 @@ public:
 
 int main()
 {
-  int T = -1;
+  int T = -1, caseId = 0;
   cin >> T;
+
   while (T--)
   {
     int R = -1, C = -1, M = -1, N = -1, W = -1, x = -1, y = -1;
@@ -242,6 +260,7 @@ int main()
       kwg.markWaterSquare(x, y);
     }
     kwg.dfs(Cell(0, 0));
-    kwg.printStats();
+    kwg.getStats();
+    kwg.printOddsEvens(++caseId);
   }
 }
