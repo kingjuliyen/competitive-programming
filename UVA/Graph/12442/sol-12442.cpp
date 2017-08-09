@@ -5,7 +5,8 @@
 /*
   Find strongly connected components (SCC)
   choose the SCC with the maximum members
-  if two or more SCC are there then select the SCC which contains lowest vertex id and return lowest vertex id
+  if two or more SCC with the same max member count then
+    select the SCC which contains lowest vertex id and return lowest vertex id
 
   However this is a special case of SCC, there is only one edge between any two nodes which has a simpler solution.
   Following implementation is simple version
