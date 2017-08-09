@@ -2,6 +2,15 @@
 // https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3873
 // author: Senthil Kumar Thangavelu, email: kingjuliyen @ google's email.com
 
+/*
+  Find strongly connected components (SCC)
+  choose the SCC with the maximum members
+  if two or more SCC are there then select the SCC which contains lowest vertex id and return lowest vertex id
+
+  However this is a special case of SCC, there is only one edge between any two nodes which has a simpler solution.
+  Following implementation is simple version
+*/
+
 #include <iostream>
 #include <vector>
 
@@ -12,33 +21,22 @@ public:
   vector<int> paths;
   vector<bool> vstd;
   vector<int> mrc;
-  int rcount, mdepth;
+  int rcount, mdepth, maxR, V;
   int NUM_NODES() { return 50000 + 8; }
-  int maxR;
-  int V;
+ 
+  #define ALLOCATE(var, ty, init) var = vector< ty > (NUM_NODES(), init)
+  #define CLR(var, init) var.assign(NUM_NODES()-1, init)
 
-  FE() {
-    paths = vector<int> (NUM_NODES(), -1);
-    vstd = vector<bool> (NUM_NODES(), false);
-    mrc = vector<int> (NUM_NODES(), -1);
-  }
-
-  void clearAll() {
-    paths.assign(NUM_NODES()-1, -1);
-    vstd.assign(NUM_NODES()-1, false);
-    mrc.assign(NUM_NODES()-1, -1);
-    V = maxR = -1;
-    rcount = mdepth = 0;
-  }
-
-  int getConnection(int v) { return paths[v]; }
-  void addPath(int u, int v) { paths[u] = v; }
-  int getMaxReachable(int v) { return mrc[v]; }
+  FE() { ALLOCATE(paths, int, -1); ALLOCATE(vstd, bool, false); ALLOCATE(mrc, int, -1); }
+  void clearAll() { CLR(paths, -1); CLR(vstd, false); CLR(mrc, -1); V = maxR = -1; rcount = mdepth = 0; }
+  int  getChildVertex(int v)         { return paths[v]; }
+  void addPath(int u, int v)         { paths[u] = v; }
+  int  getMaxReachable(int v)        { return mrc[v]; }
   void setMaxReachable(int v, int r) { mrc[v] = r; }
-  void clearAllVisited() { vstd.assign(NUM_NODES()-1, false); }
-  void markAsVisited(int v) { vstd[v] = true; }
-  bool visited(int v) { return vstd[v]; }
-  void initForDfs() { clearAllVisited(); rcount = mdepth = 0;}
+  void clearAllVisited()             { vstd.assign(NUM_NODES()-1, false); }
+  void markAsVisited(int v)          { vstd[v] = true; }
+  bool visited(int v)                { return vstd[v]; }
+  void initForDfs()                  { clearAllVisited(); rcount = mdepth = 0;}
 
   void dfs(int v) {
     if(visited(v)) {
@@ -46,16 +44,13 @@ public:
       return;
     }
     markAsVisited(v);
-
     rcount++;
-    int nv = getConnection(v);
-    if(nv != -1)
-      dfs(nv);
-    setMaxReachable(v, mdepth - rcount);
-    rcount--;
+    if(getChildVertex(v) != -1)
+      dfs(getChildVertex(v));
+    setMaxReachable(v, mdepth - rcount--);
   }
 
-  void checkAndsetMaxVals(int r, int v) {
+  void checkAndsetMaxVals(int r, int v) { 
     if(r > maxR) {
       maxR = r;
       V = v;
@@ -64,7 +59,7 @@ public:
 
   void solve(int caseid) {
     for(int i=0; i<paths.size(); i++) {
-      int e = getConnection(i);
+      int e = getChildVertex(i);
       if(e == -1)
         continue;
       int r = getMaxReachable(i);
@@ -94,12 +89,10 @@ int main() {
   }
 }
 
+/***************************************************************************/
 // Same solution when implemented in java gets TLE may be due to ArrayList
-
+/***************************************************************************/
 #if 0
-// 12442 Forwarding Emails
-// https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3873
-// author: Senthil Kumar Thangavelu, email: kingjuliyen @ google's email.com
 
 import java.util.*;
 import java.lang.*;
@@ -132,7 +125,7 @@ class Main {
       rcount = mdepth = 0;
     }
 
-    int getConnection(int v) { return paths.get(v); }
+    int getChildVertex(int v) { return paths.get(v); }
     void addPath(int u, int v) { paths.set(u, v); }
     int getMaxReachable(int v) { return mrc.get(v); }
     void setMaxReachable(int v, int r) { mrc.set(v, r); }
@@ -150,7 +143,7 @@ class Main {
       markAsVisited(v);
 
       rcount++;
-      int nv = getConnection(v);
+      int nv = getChildVertex(v);
       if(nv != -1)
         dfs(nv);
       setMaxReachable(v, mdepth - rcount);
@@ -166,7 +159,7 @@ class Main {
 
     void solve(int caseid) {
       for(int i=0; i<paths.size(); i++) {
-        int e = getConnection(i);
+        int e = getChildVertex(i);
         if(e == -1)
           continue;
         // System.out.println("****** solve i "+i);
