@@ -2,6 +2,25 @@
 // https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=8&page=show_problem&problem=565
 // author: Senthil Kumar Thangavelu, email: kingjuliyen @ google's email.com
 
+#if 0
+http://cse.unl.edu/~goddard/Courses/CSCE310J/Lectures/Lecture8-DynamicProgramming.pdf
+
+for w = 0 to W
+  B[0,w] = 0
+for i = 1 to n
+  B[i,0] = 0
+
+for i = 1 to n
+    for w = 0 to W
+        if (wi <= w && (bi + B[i-1, w-wi] > B[i-1,w]))
+            B[i, w] = bi + B[i-1, w-wi]
+            P[i, w] = -1 * (w-wi)
+        else
+            B[i, w] = B[i-1, w]
+            P[i, w] = w
+
+#endif
+
 #include <iostream>
 #include <vector>
 using namespace std;
