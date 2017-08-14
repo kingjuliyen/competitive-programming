@@ -21,7 +21,7 @@ struct M2D  {
   void set(int x, T val) { m[x] = val; }
   T getd(int r, int c) { cout << " get r "<< r << " c " << c << endl; return m[r*C + c]; }
   T get(int r, int c) { return m[r*C + c]; }
-  void print() { for(int r=0; r<R; r++) { for (int c=0; c<C; c++)    printf("%10d ", get(r, c));     printf("\n");   }  }
+  void print() { for(int r=0; r<R; r++) { for (int c=0; c<C; c++)    printf("%10d\t", get(r, c));     printf("\n");   }  }
   void test() { for(int i=0; i<SZ(); i++) { set(i, i+1);}  }
 };
 
@@ -30,7 +30,8 @@ public:
   const int N, nt;
   vector<int> dtn; // duration
   M2D<int> *B, *P;
-  CD(int _N, int _nt): N(_N), nt(_nt), B(new M2D<int>(nt+1, N+1, 0)), P(new M2D<int>(nt+1, N+1, 0)) { dtn.push_back(-50000);  }
+  CD(int _N, int _nt): N(_N), nt(_nt),
+    B(new M2D<int>(nt+1, N+1, 0)), P(new M2D<int>(nt+1, N+1, 0)) { dtn.push_back(-50000);  }
   ~CD() { delete B; delete P; }
   void addDuration(int m) { dtn.push_back(m); }
   int weight(int x) { return dtn[x]; }
@@ -63,32 +64,35 @@ for i = 1 to n
 
     for(int i=1; i <= I; i++) {
       for(int w=0; w <= W; w++) {
-        cout << "\n\n i " << i << " w " << w << endl;
-        cout << " wi " << wi << " w " << w << endl;
+        // cout << "\n\n i " << i << " w " << w << endl;
+        // cout << " wi " << wi << " w " << w << endl;
         if(wi <= w) {
-          cout << " (wi <= w) wi " << endl;
+          // cout << " (wi <= w) wi " << endl;
           int nb = bi + BG(i-1, w-wi);
-          cout << " nb " << nb << " BG(i-1, w) " << (BG(i-1, w)) << endl;
+          // cout << " nb " << nb << " BG(i-1, w) " << (BG(i-1, w)) << endl;
           if(nb > BG(i-1, w)) {
-            cout << " nb > BG(i-1, w) \n";
+            // cout << " nb > BG(i-1, w) \n";
             B->set(i, w, nb);
+            P->set(i,w, (-1 * (w-wi)) );
           }
           else {
-            cout << " nb <= BG(i-1, w) \n";
+            // cout << " nb <= BG(i-1, w) \n";
             B->set(i, w, BG(i-1, w));
+            P->set(i, w, w);
           }
         }
         else {
-          cout << " ! (wi <= w) wi " << endl;
+          // cout << " ! (wi <= w) wi " << endl;
           B->set(i, w, BG(i-1, w));
+          P->set(i, w, w);
         }
       }
-      B->print();
-
+      // B->print();
 
     }
     B->print();
-    cout << "########### " << B->get(I, W) << "\n";
+    // cout << "########### " << B->get(I, W) << "\n";
+    // P->print();
     // cout << "###########\n";
   } // void solve()
 
