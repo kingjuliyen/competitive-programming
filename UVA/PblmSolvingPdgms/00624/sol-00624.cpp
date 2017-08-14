@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stack>
 using namespace std;
 
 template <typename T>
@@ -36,9 +37,11 @@ public:
   void addDuration(int m) { dtn.push_back(m); }
   int weight(int x) { return dtn[x]; }
   int benefit(int x) { return dtn[x]; }
-
+  void printWeights() { for(int i=0; i<dtn.size(); i++) cout << dtn[i] << " "; cout << endl; }
 #if 0
 http://cse.unl.edu/~goddard/Courses/CSCE310J/Lectures/Lecture8-DynamicProgramming.pdf
+
+find optimal value for knapsack
 
 for w = 0 to W
     B[0,w] = 0
@@ -53,13 +56,24 @@ for i = 1 to n
             else
                 B[i,w] = B[i-1,w]
         else B[i,w] = B[i-1,w] // wi > w
+
+/*******************/
+
+i=n, k=W
+while i,k > 0
+    if B[i,k] ≠ B[i−1,k] then
+        mark the ith item as in the knapsack
+        i = i−1, k = k-wi
+    else
+        i = i−1
+
 #endif
 
 #define wi (weight(i))
 #define bi (benefit(i))
 #define BG(x, y) (B->get(x, y))
 
-  void solve() {
+  void doKnapSack(){
     const int W = N, I = nt;
 
     for(int i=1; i <= I; i++) {
@@ -90,10 +104,46 @@ for i = 1 to n
       // B->print();
 
     }
-    B->print();
-    // cout << "########### " << B->get(I, W) << "\n";
-    // P->print();
-    // cout << "###########\n";
+    // printWeights();
+    // B->print();
+  }
+
+#if 0
+i=n, k=W
+while i,k > 0
+    if B[i,k] ≠ B[i−1,k] then
+        mark the ith item as in the knapsack
+        i = i−1, k = k-wi
+    else
+        i = i−1
+#endif
+
+  void printKnapSackItems() {
+    int i=nt, k=N;
+    stack<int> s;
+    while((i >0) && (k >0)) {
+      // cout << " i " << i << " k " << k << endl;
+      if(B->get(i, k) != B->get(i-1, k) ) {
+        s.push(wi);
+        // cout << " " << wi << endl;
+        k = k-wi;
+        i = i-1;
+      }
+      else {
+        i = i-1;
+      }
+    }
+
+    while(!s.empty()) {
+      cout << s.top() << " ";
+      s.pop();
+    }
+    cout << "sum:" << B->get(nt, N) << endl;
+  }
+
+  void solve() {
+    doKnapSack();
+    printKnapSackItems();
   } // void solve()
 
 }; // class CD {
