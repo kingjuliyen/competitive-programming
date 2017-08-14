@@ -31,7 +31,7 @@ public:
   vector<int> dtn; // duration
   M2D<int> *B, *P;
   CD(int _N, int _nt): N(_N), nt(_nt), B(new M2D<int>(nt+1, N+1, 0)), P(new M2D<int>(nt+1, N+1, 0)) { dtn.push_back(-50000);  }
-  ~CD() { /* delete B; delete P; */ }
+  ~CD() { delete B; delete P; }
   void addDuration(int m) { dtn.push_back(m); }
   int weight(int x) { return dtn[x]; }
   int benefit(int x) { return dtn[x]; }
