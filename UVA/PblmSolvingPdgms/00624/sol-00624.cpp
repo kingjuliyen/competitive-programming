@@ -14,16 +14,15 @@
 #include <stack>
 using namespace std;
 
-template <typename T>
-struct M2D  { // Matrix 2D
+template <typename T> struct M2D  { // Matrix 2D
   int R, C;
   vector<T>  m;
-  int SZ()                                      { return R*C; }
-  M2D(int _R, int _C, T initval) : R(_R), C(_C) {  m = vector<T> (SZ(), initval); }
-  M2D(int _R, int _C) : R(_R), C(_C)            {  m = vector<T> (SZ()); }
-  ~M2D()                                        { }
-  void set(int r, int c, T val)                 { m[r*C + c] = val; }
-  T get(int r, int c)                           { return m[r*C + c]; }
+  int SZ()                                      { return R*C;                    }
+  M2D(int _R, int _C, T initval) : R(_R), C(_C) { m = vector<T> (SZ(), initval); }
+  M2D(int _R, int _C) : R(_R), C(_C)            { m = vector<T> (SZ());          }
+  ~M2D()                                        {                                }
+  void set(int r, int c, T val)                 { m[r*C + c] = val;              }
+  T get(int r, int c)                           { return m[r*C + c];             }
   void print() {
     for(int r=0; r<R; r++) {
       for (int c=0; c<C; c++)
@@ -31,16 +30,16 @@ struct M2D  { // Matrix 2D
       printf("\n");
     }
   }
-};
+}; // template <typename T> struct M2D
 
 class CD {
 public:
   const int N, nt; vector<int> dtn; /* duration */ M2D<int> *B;
   CD(int _N, int _nt): N(_N), nt(_nt), B(new M2D<int>(nt+1, N+1, 0)) { dtn.push_back(-50000);  }
-  ~CD()                                                              { delete B;}
-  void addDuration(int m)                                            { dtn.push_back(m); }
-  int weight(int x)                                                  { return dtn[x]; }
-  int benefit(int x)                                                 { return dtn[x]; }
+  ~CD()                                                              { delete B;               }
+  void addDuration(int m)                                            { dtn.push_back(m);       }
+  int weight(int x)                                                  { return dtn[x];          }
+  int benefit(int x)                                                 { return dtn[x];          }
 
   #define wi (weight(i))
   #define bi (benefit(i))
