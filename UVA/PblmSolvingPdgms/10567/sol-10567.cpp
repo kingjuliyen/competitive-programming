@@ -3,6 +3,7 @@
 // author: Senthil Kumar Thangavelu, email: kingjuliyen @ google's email.com
 
 #include <iostream>
+#include <cstring>
 #include <vector>
 #include <set>
 
