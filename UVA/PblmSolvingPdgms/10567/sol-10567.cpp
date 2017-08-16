@@ -28,24 +28,38 @@ public:
       addIndex(S[i], i);
   }
 
-  int find(char c, int minStartPos ) {
+  int find(char c, int msp ) { // msp == min start position
     si_t &s = charIndexMp[c];
-    auto it = s.lower_bound(minStartPos);
-    return (it == s.end()) ? -1 : std::distance(s.begin(), it);
+    auto it = s.lower_bound(msp);
+    return (it == s.end()) ? -1 : *it;
   }
   
-  pair<int, int> solve(char *s) {
-    int l = strlen(s);
-    sp = -1, cp = 0;
+  int sp, ep;
+  void solve(char *s) {
+    int l = strlen(s), cp = 0;
+    sp = -1, cp = 0, ep = -1;
     for(int i=0; i<l; i++) {
-      cp = find(s[i], cp);
+      // cout << " s[i] " << s[i] << " cp " << cp << endl;
+      if((cp = find(s[i], cp)) == -1)
+        break;
+      // cout << " new cp " << cp << endl;
+
       if(i == 0)
         sp = cp;
-      if(cp == -1 || i == l-1)
-        break;
+      if(i == l-1)
+        ep = cp;
+
       cp++;
     }
   } // solve(char *s)
+
+  void printResult() {
+    // cout << " ### sp " << sp << " ep " << ep << endl;
+    if(sp>=0 && ep != -1)
+      cout << "Matched " << sp << " " << ep << endl;
+    else
+      cout << "Not matched" << endl;
+  }
 };
 
 int main() {
@@ -61,5 +75,8 @@ int main() {
   while(Q--) {
     scanf("%s", SS); // cout << SS << endl;
     hfb.solve(SS);
+    hfb.printResult();
+    // cout << " *************************************** " << endl;
+
   }
 }
