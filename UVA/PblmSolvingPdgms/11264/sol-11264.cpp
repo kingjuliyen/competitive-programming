@@ -5,10 +5,8 @@
 #include <vector>
 using namespace std;
 
-class CC { // Coin Collector
-  public:
-  int n;
-  vector<int> ct; // coin types
+class CC { public: // Coin Collector
+  int n; vector<int> ct; // coin types
   CC(int _n) :n(_n) { }
   void addCoin(int c) { ct.push_back(c); }
   void solve() { }
