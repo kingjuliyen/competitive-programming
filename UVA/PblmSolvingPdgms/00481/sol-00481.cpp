@@ -104,14 +104,15 @@ class WGU {
     for(auto s: stmx) {
       vi_tp v = s.v;
       int d = c - (v->at(v->size()-1));
-      if(d>0) {
-        if(d<m) {
-          m = d;
-          n = v;
-        }
+      if(!d)
+        return;
+
+      if(d>0 && d<m ) {
+        m = d;
+        n = v;
       }
     }
-    // cout << n << endl;
+
     vi_tp vp = new vi_t (*n);
     vp->push_back(c);
     int rsz = vp->size();
@@ -136,12 +137,11 @@ class WGU {
 
   void solve() {
     newActiveList(vi[0]);
-    print();
 
     for(int i=1; i< vi.size(); i++) {
 
       int c = vi[i];
-      cout << "========== " << c << endl;
+      // cout << "========== " << c << endl;
       // cout << " " << c ;
 
       if(smallest(c)) {
@@ -155,7 +155,28 @@ class WGU {
       else {
         handleInBetween(c);
       }
-      print();
+      // print();
+    }
+    // cout << endl;
+
+  } // void solve()
+
+  void printResult() {
+    int m = 0;
+    vi_tp n = 0;
+
+    for(auto s: stmx) {
+      vi_tp v = s.v;
+      if(v->size() > m) {
+        m = v->size();
+        n = v;
+      }
+    }
+
+    cout << n->size() << endl;
+    cout << "-";
+    for(int i=0; i<n->size(); i++) {
+      cout << endl << n->at(i);
     }
     cout << endl;
   }
@@ -166,4 +187,5 @@ int main() {
   WGU wgu;
   while (cin >> x) { wgu.add(x); }
   wgu.solve();
+  wgu.printResult();
 }
