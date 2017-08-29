@@ -97,7 +97,7 @@ class WGU {
   }
 
   void handleInBetween(int c) {
-    cout << " handleInBetween " << endl;
+    // cout << " handleInBetween " << endl;
     int m = 99999999;
     vi_tp n = 0;
 
@@ -111,7 +111,7 @@ class WGU {
         }
       }
     }
-    cout << n << endl;
+    // cout << n << endl;
     vi_tp vp = new vi_t (*n);
     vp->push_back(c);
     int rsz = vp->size();
@@ -120,6 +120,8 @@ class WGU {
     while(it != stmx.end()) {
       vi_tp v = it->v;
       if(v->size() == rsz) {
+        it->v->clear();
+        delete(it->v);
         it = stmx.erase(it);
       } else {
         it++;
@@ -143,11 +145,11 @@ class WGU {
       // cout << " " << c ;
 
       if(smallest(c)) {
-        cout << " smallest(c) " << endl;
+        // cout << " smallest(c) " << endl;
         newActiveList(c);
       }
       else if(largest(c)) {
-        cout << " largest(c) " << endl;
+        // cout << " largest(c) " << endl;
         handleLargest(c);
       }
       else {
