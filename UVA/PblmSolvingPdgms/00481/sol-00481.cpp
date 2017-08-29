@@ -98,7 +98,7 @@ class WGU {
 
   void handleInBetween(int c) {
     // cout << " handleInBetween " << endl;
-    int m = 99999999;
+    int m = numeric_limits<int>::max();
     vi_tp n = 0;
 
     for(auto s: stmx) {
@@ -112,23 +112,23 @@ class WGU {
         n = v;
       }
     }
-
+    // cout << " handleInBetween 3 n " << n << endl;
     vi_tp vp = new vi_t (*n);
     vp->push_back(c);
     int rsz = vp->size();
-
+    // cout << " handleInBetween 4 " << endl;
     auto it = stmx.begin();
     while(it != stmx.end()) {
       vi_tp v = it->v;
       if(v->size() == rsz) {
-        it->v->clear();
-        delete(it->v);
+        // it->v->clear();
+        // delete(it->v);
         it = stmx.erase(it);
       } else {
         it++;
       }
     }
-
+    // cout << " handleInBetween 4 " << endl;
     auto t = TMX(vp, vp->at(vp->size()-1));
     stmx.insert(t);
     checkNsetIfLargest(t);
@@ -142,8 +142,6 @@ class WGU {
 
       int c = vi[i];
       // cout << "========== " << c << endl;
-      // cout << " " << c ;
-
       if(smallest(c)) {
         // cout << " smallest(c) " << endl;
         newActiveList(c);
