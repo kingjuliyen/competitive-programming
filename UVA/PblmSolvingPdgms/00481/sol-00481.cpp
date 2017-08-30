@@ -4,8 +4,7 @@
 
 #include <iostream>
 #include <vector>
-#include <set>
-#include <list>
+#include <algorithm>
 #include <limits>
 #include <cmath>
 
@@ -17,36 +16,8 @@ struct WGU {
   int N, L,lo, hi, newL, mid,k        ,*P, *M, *S;
   WGU() { }
   void add(int x) { X.push_back(x); }
-#if 0
-P[N]; M[N+1];  L = 0;
 
-for i in range 0 to N-1: // Binary search for the largest positive j ≤ Lsuch that X[M[j]] < X[i]
-  lo = 1; hi = L
-  while lo ≤ hi:
-    mid = ceil((lo+hi)/2)
-    if X[M[mid]] < X[i]:
-      lo = mid+1
-    else:
-      hi = mid-1
-
-  newL = lo // After searching, lo is 1 greater than the length of the longest prefix of X[i]
-  P[i] = M[newL-1] // The predecessor of X[i] is the last index of the subsequence of length newL-1
-  M[newL] = i
-
-  if newL > L: // If we found a subsequence longer than any we've found yet, update L
-    L = newL
-// ============================================
-// Reconstruct the longest increasing subsequence
-S[L]
-k = M[L]
-for i in range L-1 to 0:
-  S[i] = X[k]
-  k = P[k]
-
-#endif
-
-
-  void algo() {
+  void algo() { // algo refer to from wikipedia
     for(int i=0; i<N; i++) {
       lo = 1; hi = L;
       while(lo <= hi) {
@@ -69,9 +40,10 @@ for i in range L-1 to 0:
     k = M[L];
     for(int i=L-1; i>=0; i--) {
       S[i] = X[k];
-      cout << " " << S[i];
+      //cout << " " << S[i];
       k = P[k];
     }
+    sort(S, S+L);
   }
 
   void solve() {
@@ -81,6 +53,11 @@ for i in range L-1 to 0:
   } // void solve()
 
   void printResult() {
+    cout << L << endl;
+    cout << "-" << endl;
+    for(int i=0; i<L; i++) {
+      cout << S[i] << endl;
+    }
   } // printResult()
 };
 
