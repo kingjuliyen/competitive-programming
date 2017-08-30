@@ -11,13 +11,13 @@
 using namespace std;
 typedef vector<int> vi_t;
 
-struct WGU {
-  vi_t X;
-  int N, L,lo, hi, newL, mid,k        ,*P, *M, *S;
+struct WGU { // What Goes Up
+  vi_t X; int N, L,lo, hi, newL, mid, k, *P, *M, *S;
   WGU() { }
   void add(int x) { X.push_back(x); }
 
-  void algo() { // algo refer to from wikipedia
+  // algo from https://en.wikipedia.org/wiki/Longest_increasing_subsequence
+  void algo() {
     for(int i=0; i<N; i++) {
       lo = 1; hi = L;
       while(lo <= hi) {
@@ -40,25 +40,23 @@ struct WGU {
     k = M[L];
     for(int i=L-1; i>=0; i--) {
       S[i] = X[k];
-      //cout << " " << S[i];
       k = P[k];
     }
-    sort(S, S+L);
   }
 
+  void init() { N = X.size(); P = new int[N]; M = new int[N+1]; L = 0; }
+
   void solve() {
-    N = X.size(); P = new int[N]; M = new int[N+1]; L = 0;
+    init();
     algo();
     reconstruct();
-  } // void solve()
+  }
 
   void printResult() {
-    cout << L << endl;
-    cout << "-" << endl;
-    for(int i=0; i<L; i++) {
+    cout << L << endl << "-" << endl;
+    for(int i=0; i<L; i++)
       cout << S[i] << endl;
-    }
-  } // printResult()
+  }
 };
 
 int main() {
